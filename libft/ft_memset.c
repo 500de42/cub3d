@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 16:44:29 by kcharbon         ###   ########.fr       */
+/*   Created: 2024/05/20 18:10:38 by kcharbon          #+#    #+#             */
+/*   Updated: 2024/05/29 19:14:32 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-
-typedef struct t_data
+void	*ft_memset(void *ptr, int c, size_t n)
 {
-};
+	unsigned char	*p;
 
-//////////////// PARSING //////////////////////
-
-void	check_(char **av, int ac);
+	p = ptr;
+	while (n > 0)
+	{
+		*p++ = c;
+		n--;
+	}
+	return (ptr);
+}

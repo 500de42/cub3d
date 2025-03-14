@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 16:44:29 by kcharbon         ###   ########.fr       */
+/*   Created: 2024/05/28 20:42:04 by kcharbon          #+#    #+#             */
+/*   Updated: 2024/05/31 17:49:52 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-
-typedef struct t_data
+void	ft_putendl_fd(char *s, int fd)
 {
-};
-
-//////////////// PARSING //////////////////////
-
-void	check_(char **av, int ac);
+	ft_putstr_fd(s, fd),
+	write (fd, "\n", 1);
+}

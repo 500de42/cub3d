@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 16:44:29 by kcharbon         ###   ########.fr       */
+/*   Created: 2024/05/20 17:00:20 by kcharbon          #+#    #+#             */
+/*   Updated: 2024/05/29 14:35:35 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-
-typedef struct t_data
+int	ft_isalpha(int c)
 {
-};
-
-//////////////// PARSING //////////////////////
-
-void	check_(char **av, int ac);
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return (1);
+	else
+		return (0);
+}

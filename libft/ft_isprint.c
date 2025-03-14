@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 16:44:29 by kcharbon         ###   ########.fr       */
+/*   Created: 2024/05/20 17:39:43 by kcharbon          #+#    #+#             */
+/*   Updated: 2024/05/29 14:37:57 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-
-typedef struct t_data
+int	ft_isprint(int c)
 {
-};
-
-//////////////// PARSING //////////////////////
-
-void	check_(char **av, int ac);
+	if (c >= 32 && c < 127)
+		return (1);
+	else
+		return (0);
+}

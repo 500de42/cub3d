@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 16:44:29 by kcharbon         ###   ########.fr       */
+/*   Created: 2024/05/20 19:41:43 by kcharbon          #+#    #+#             */
+/*   Updated: 2024/05/31 16:02:14 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-
-typedef struct t_data
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-};
+	unsigned char		*pdest;
+	unsigned const char	*psrc;
 
-//////////////// PARSING //////////////////////
-
-void	check_(char **av, int ac);
+	pdest = dest;
+	psrc = src;
+	if ((!dest) && (!src))
+		return (NULL);
+	while (n > 0)
+	{
+		*pdest++ = *psrc++;
+		n--;
+	}
+	return (dest);
+}

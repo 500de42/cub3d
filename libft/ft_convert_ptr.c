@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_convert_ptr.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 16:44:29 by kcharbon         ###   ########.fr       */
+/*   Created: 2024/06/11 18:08:37 by kcharbon          #+#    #+#             */
+/*   Updated: 2024/10/14 14:41:12 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
+int	ft_putchar(char c);
 
-typedef struct t_data
+int	ft_convert_ptr(void *pt)
 {
-};
+	unsigned long	ptr;
+	int				count;
 
-//////////////// PARSING //////////////////////
-
-void	check_(char **av, int ac);
+	count = 0;
+	if (!pt)
+	{
+		count += write(1, "(nil)", 5);
+		return (count);
+	}
+	else
+	{
+		ptr = (unsigned long long)pt;
+		count += write(1, "0x", 2);
+		count += ft_putnbr_base(ptr, "0123456789abcdef");
+	}
+	return (count);
+}

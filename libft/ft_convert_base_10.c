@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_convert_base_10.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 16:44:29 by kcharbon         ###   ########.fr       */
+/*   Created: 2024/06/10 17:48:20 by kcharbon          #+#    #+#             */
+/*   Updated: 2024/10/14 14:40:45 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-
-typedef struct t_data
+int	ft_convert_base_10(int n)
 {
-};
+	long	nb;
+	int		count;
 
-//////////////// PARSING //////////////////////
-
-void	check_(char **av, int ac);
+	nb = (long)n;
+	count = 0;
+	if (nb < 0)
+	{
+		count += ft_putchar('-');
+		nb = -nb;
+	}
+	if (nb < 10)
+		count += ft_putchar(nb + '0');
+	else
+	{
+		count += ft_convert_base_10(nb / 10);
+		count += ft_convert_base_10(nb % 10);
+	}
+	return (count);
+}

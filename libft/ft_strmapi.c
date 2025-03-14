@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 16:44:29 by kcharbon         ###   ########.fr       */
+/*   Created: 2024/05/28 16:11:43 by kcharbon          #+#    #+#             */
+/*   Updated: 2024/05/29 18:17:17 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-
-typedef struct t_data
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-};
+	char	*s2;
+	size_t	len;
+	size_t	i;
 
-//////////////// PARSING //////////////////////
-
-void	check_(char **av, int ac);
+	if (!(*s || *f))
+		return (NULL);
+	i = 0;
+	len = ft_strlen(s);
+	s2 = malloc (sizeof (char) * (len + 1));
+	if (!s2)
+		return (NULL);
+	while (i < len)
+	{
+		s2[i] = f(i, s[i]);
+		i++;
+	}
+	s2[i] = '\0';
+	return (s2);
+}

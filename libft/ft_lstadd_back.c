@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 16:44:29 by kcharbon         ###   ########.fr       */
+/*   Created: 2024/06/01 17:40:33 by kcharbon          #+#    #+#             */
+/*   Updated: 2024/06/01 19:01:49 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-
-typedef struct t_data
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-};
+	t_list	*last;
 
-//////////////// PARSING //////////////////////
-
-void	check_(char **av, int ac);
+	if (!lst && !new)
+		return ;
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	last = *lst;
+	while (last->next != NULL)
+		last = last->next;
+	last->next = new;
+}

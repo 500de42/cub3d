@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 16:44:29 by kcharbon         ###   ########.fr       */
+/*   Created: 2024/05/23 16:42:30 by kcharbon          #+#    #+#             */
+/*   Updated: 2024/05/28 21:18:28 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-
-typedef struct t_data
+void	*ft_calloc(size_t n, size_t size)
 {
-};
+	void	*a;
 
-//////////////// PARSING //////////////////////
-
-void	check_(char **av, int ac);
+	a = malloc (n * size);
+	if (a == NULL)
+		return (NULL);
+	ft_bzero(a, n * size);
+	return (a);
+}

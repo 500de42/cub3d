@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 16:44:29 by kcharbon         ###   ########.fr       */
+/*   Created: 2024/06/10 13:32:10 by kcharbon          #+#    #+#             */
+/*   Updated: 2025/01/17 18:30:02 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-
-typedef struct t_data
+int	ft_putstr(char *str)
 {
-};
+	int	l;
 
-//////////////// PARSING //////////////////////
-
-void	check_(char **av, int ac);
+	l = 0;
+	if (str == NULL)
+	{
+		write(1, "(null)", 6);
+		l = 6;
+		return (l);
+	}
+	if (!str)
+		return (0);
+	while (*str)
+	{
+		l += write(1, str, 1);
+		str++;
+	}
+	return (l);
+}

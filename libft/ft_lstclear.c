@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 16:44:29 by kcharbon         ###   ########.fr       */
+/*   Created: 2024/06/01 19:29:06 by kcharbon          #+#    #+#             */
+/*   Updated: 2024/06/01 20:52:15 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-
-typedef struct t_data
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-};
+	t_list	*temp;
 
-//////////////// PARSING //////////////////////
-
-void	check_(char **av, int ac);
+	if (!lst)
+		return ;
+	while (*lst)
+	{
+		temp = (*lst)->next;
+		del((*lst)->content);
+		free (*lst);
+		*lst = temp;
+	}
+	*lst = NULL;
+}

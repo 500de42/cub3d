@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 16:44:29 by kcharbon         ###   ########.fr       */
+/*   Created: 2024/05/23 17:15:25 by kcharbon          #+#    #+#             */
+/*   Updated: 2024/10/19 15:16:35 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-
-typedef struct t_data
+char	*ft_strdup(char *str)
 {
-};
+	char	*s1;
+	size_t	i;
 
-//////////////// PARSING //////////////////////
-
-void	check_(char **av, int ac);
+	i = 0;
+	while (str[i])
+		i++;
+	s1 = malloc(sizeof(char) * (i + 1));
+	if (s1 == NULL)
+		return (NULL);
+	i = 0;
+	while (str[i])
+	{
+		s1[i] = str[i];
+		i++;
+	}
+	s1[i] = '\0';
+	return (s1);
+}
