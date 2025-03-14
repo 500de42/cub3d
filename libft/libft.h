@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:03:55 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/11 17:04:06 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:40:31 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ int					ft_putnbr_base(unsigned long nb, char *base);
 int					ft_convert_ptr(void *pt);
 // get_next_line
 char				*get_next_line(int fd);
+void				print_array(char **array);
 
 #endif

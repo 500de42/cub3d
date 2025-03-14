@@ -6,11 +6,13 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:28:48 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/01/07 20:55:22 by kcharbon         ###   ########.fr       */
+/*   Updated: 2024/10/20 18:09:10 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+int			check_check(char *line_map);
 
 static char	*ft_next_line(char *line)
 {
@@ -69,6 +71,25 @@ static char	*ft_line(int fd, char *dest, char *buffer)
 	return (dest);
 }
 
+int	check_check2(char *line_map)
+{
+	int	i;
+
+	i = 0;
+	if (!line_map || !line_map[0])
+		return (1);
+	if (line_map[0] == '\n' || !line_map[0])
+		return (1);
+	while (line_map[i])
+	{
+		if (line_map[i] == '\n' || line_map[i] == '\t' || line_map[i] == ' ')
+			i++;
+		else
+			return (0);
+	}
+	return (1);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*dest = NULL;
@@ -92,6 +113,8 @@ char	*get_next_line(int fd)
 	if (line == NULL)
 		return (NULL);
 	dest = ft_next_line(line);
+	if (check_check2(line) == 1)
+		free(dest);
 	return (line);
 }
 /*
