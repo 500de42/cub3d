@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 19:21:28 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/15 22:01:43 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,38 @@
 #include "minilibx-linux/mlx.h"
 #include <stdio.h>
 
-typedef struct t_data
+
+// typedef struct t_data
+// {
+// 	int		fd;
+// 	char	**map;
+// 	int		y_p;
+// 	int		x_p;
+// 	t_pars	*p;
+// }			t_data;
+
+typedef struct t_pars
 {
-	char	**map_test;
-	char	**map;
 	int		fd;
-}			t_data;
+	int		NO;
+	int		SO;
+	int		WE;
+	int		EA;
+	int		x_line;
+	int		y_line;
+	int		t_player;
+	char	**map_test;
+
+}			t_pars;
 
 //////////////// PARSING //////////////////////
 
 void		check_(char **av, int ac);
-char		**copy_map(t_data *data);
-void		check_map(char *av, t_data *d);
-void		free_struct(t_data *d);
+char		**copy_map(t_pars *data);
+void		check_map(char *av, t_pars *d);
+void		check_sprite(t_pars *d);
+void		check_path_sprite(t_pars *d, int *y, int *x, int s);
+
+/////////////// FREE /////////////////////////
+
+void		free_struct(t_pars *d);

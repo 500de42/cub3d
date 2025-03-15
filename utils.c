@@ -6,13 +6,13 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 18:15:56 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 19:22:59 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/15 21:19:02 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	free_struct(t_data *d)
+void	free_struct(t_pars *d)
 {
 	free(d);
 }
@@ -36,7 +36,7 @@ int	check_check(char *line_map)
 	return (1);
 }
 
-char	**copy_map(t_data *data)
+char	**copy_map(t_pars *data)
 {
 	char	**cpy_map;
 	char	*line_map;
@@ -47,20 +47,16 @@ char	**copy_map(t_data *data)
 	temp = get_next_line(data->fd);
 	while (temp)
 	{
-		// if (check_check(temp) == 1)
-		// 	error_copy(data, line_map, temp);
 		old_line_map = line_map;
 		line_map = ft_strjoin(line_map, temp);
 		free(old_line_map);
 		free(temp);
 		temp = get_next_line(data->fd);
 	}
-	if (line_map == NULL) /*|| *line_map == '\0' || check_check(line_map) == 1*/
+	if (line_map == NULL)
 	{
-		free_struct(data);
 		free(line_map);
-		exit(1);
-	} /*error_copy(data, line_map, NULL);*/
+	}
 	else
 		cpy_map = ft_split(line_map, '\n');
 	free(line_map);

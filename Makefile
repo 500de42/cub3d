@@ -1,7 +1,7 @@
 NAME = cub3D
 SRC  = main.c parsing.c utils.c
 OBJ = $(SRC:.c=.o)
-CFLAGS = -Wall -Wextra -Werror -fPIE
+CFLAGS = -Wall -Wextra -Werror -fPIE -g3
 LIBFTDIR = libft/
 LIBFT = $(LIBFTDIR)libft.a
 
