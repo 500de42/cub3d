@@ -6,16 +6,11 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 18:15:56 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/15 21:19:02 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:43:58 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	free_struct(t_pars *d)
-{
-	free(d);
-}
 
 int	check_check(char *line_map)
 {

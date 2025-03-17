@@ -7,7 +7,7 @@ OBJS    = ft_isalpha.o ft_isdigit.o ft_isalnum.o ft_isascii.o ft_isprint.o \
     ft_itoa.o ft_substr.o ft_strtrim.o ft_strmapi.o ft_striteri.o ft_putchar_fd.o \
     ft_putstr_fd.o ft_putendl_fd.o ft_putnbr_fd.o ft_split.o  get_next_line.o ft_convert_base_10.o \
 	ft_convert_base_10_u.o ft_putchar.o ft_printf.o ft_print_hex.o ft_putstr.o ft_type_print.o ft_convert_ptr.o \
-	ft_putnbr_base.o ft_free_array.o ft_atoll.o print_array.o
+	ft_putnbr_base.o ft_free_array.o ft_atoll.o print_array.o ft_tablen.o
 
 OBJSB = ft_lstnew.o ft_lstadd_front.o ft_lstsize.o ft_lstlast.o ft_lstadd_back.o \
 	ft_lstdelone.o ft_lstclear.o \

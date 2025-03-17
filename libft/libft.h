@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:03:55 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 18:40:31 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:03:36 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void				ft_lstdelone(t_list *lst, void (*del)(void *));
 t_list				*ft_lstlast(t_list *lst);
 t_list				*ft_lstnew(void *content);
 int					ft_lstsize(t_list *lst);
+int					ft_tablen(char **s);
+
 // printf
 int					ft_convert_base_10(int n);
 int					ft_convert_base_10_u(unsigned int n);
@@ -85,6 +87,7 @@ int					len_hex(unsigned int num);
 void				put_hex(unsigned int num, const char s);
 int					ft_putnbr_base(unsigned long nb, char *base);
 int					ft_convert_ptr(void *pt);
+
 // get_next_line
 char				*get_next_line(int fd);
 void				print_array(char **array);
