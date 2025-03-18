@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 19:58:32 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/02/08 19:58:59 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:04:39 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ long long	ft_atoll(char *str)
 	}
 	while (str[index])
 	{
+		if (!ft_isdigit(str[index]))
+			return (-1);
 		res = res * 10 + str[index] - '0';
 		index++;
 	}

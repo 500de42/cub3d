@@ -6,12 +6,11 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 15:04:05 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 18:02:03 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:57:30 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
 
 int	ft_atoi(const char *str)
 {
