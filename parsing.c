@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:27:57 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/18 20:48:00 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/19 21:24:07 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,14 @@ void	check_sprite(t_pars *d)
 	while (d->map_test[++y])
 	{
 		x = 0;
-		if (d->EA > 0 && d->WE > 0 && d->SO > 0 && d->NO > 0
-			&& d->map_test[y][x] == 'F')
+		if (d->EA > 0 && d->WE > 0 && d->SO > 0 && d->NO > 0 && d->F > 0
+			&& d->C > 0)
 			break ;
 		x = -1;
 		while (d->map_test[y][++x])
 		{
 			if (d->map_test[y][x] != ' ' && d->map_test[y][x] != '\t')
 			{
-				if ((d->EA != 1 || d->WE != 1 || d->SO != 1 || d->NO != 1)
-					&& d->map_test[y][x] == 'F')
-					free_parsing(d, "Bad path number detected\n");
 				if (ft_strncmp("NO", &d->map_test[y][x], 2) == 0)
 				{
 					check_path_sprite(d, &y, &x, 3);
@@ -103,30 +100,25 @@ void	check_sprite(t_pars *d)
 					check_path_sprite(d, &y, &x, 1);
 					break ;
 				}
+				else if (ft_strncmp("F ", &d->map_test[y][x], 2) == 0)
+				{
+					check_rgb(d, &y, &x);
+					break ;
+				}
+				else if (ft_strncmp("C ", &d->map_test[y][x], 2) == 0)
+				{
+					check_rgb(d, &y, &x);
+					break ;
+				}
 				else
-					free_parsing(d, "error\nbad character detected");
+					free_parsing(d, "error\nBad character\n");
 			}
 		}
 	}
-	if ((d->EA != 1 || d->WE != 1 || d->SO != 1 || d->NO != 1))
-		free_parsing(d, "error\nBad path number detected\n");
-	if (d->map_test[y][x + 1] != ' ' && d->map_test[y][x + 1] != '\t')
-		free_parsing(d, "error\nexepted format <F number,number,number>\n");
-	check_rgb(d, &y, &x);
-	while (d->map_test[++y])
-	{
-		if ((d->map_test[y][0] != 'C' && d->map_test[y][0] != 'F') && (d->F == 1
-				&& d->C == 1))
-			return ;
-		x = -1;
-		while (d->map_test[y][++x])
-			if (d->map_test[y][x] != ' ' && d->map_test[y][x] != '\t')
-			{
-				check_rgb(d, &y, &x);
-				d->save_y = y + 1;
-				break ;
-			}
-	}
+	if ((d->EA != 1 || d->WE != 1 || d->SO != 1 || d->NO != 1 || d->C != 1
+			|| d->F != 1))
+		free_parsing(d, "error\nBad path or RGB number detected\n");
+	d->save_y = y + 1;
 }
 
 void	check_rgb(t_pars *d, int *y, int *x)
@@ -135,10 +127,17 @@ void	check_rgb(t_pars *d, int *y, int *x)
 	int		nb_rgb[3];
 	int		i;
 
-	if ((*x) != 0)
-		free_parsing(d, "error\nSpace not accepted\n");
-	if (d->map_test[*y][0] != 'C' && d->map_test[*y][0] != 'F')
+	if (d->map_test[*y][*x] != 'C' && d->map_test[*y][*x] != 'F')
+	{
+		printf("\n%c\n", d->map_test[*y][*x]);
 		free_parsing(d, "error\nBad character\n");
+	}
+	if (d->map_test[*y][(*x) + 1] != ' ')
+		free_parsing(d, "error\nexepted format <F number,number,number>\n");
+	if (d->map_test[*y][*x] == 'F')
+		d->F++;
+	else
+		d->C++;
 	if (ft_strlen(&d->map_test[*y][(*x)]) > 1)
 		(*x) += 2;
 	else
@@ -168,10 +167,6 @@ void	check_rgb(t_pars *d, int *y, int *x)
 		free(d);
 		exit(1);
 	}
-	if (d->map_test[*y][0] == 'F')
-		d->F++;
-	else
-		d->C++;
 	print_array(tab);
 	ft_free_array(tab);
 }
@@ -192,6 +187,61 @@ int	found_the_most_insane_len(char **map)
 	return (n);
 }
 
+char	**parse_map(char **map)
+{
+	int	i;
+	int	j;
+	int	c;
+
+	i = -1;
+	j = 0;
+	c = 0;
+	while (map[++i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] <= 32)
+				j++;
+			else if (map[i][j] == '1')
+			{
+				c = 1;
+				break ;
+			}
+			j++;
+		}
+		if (c == 1)
+			break ;
+	}
+	return (&map[i]);
+}
+
+void	check_first_line(char *s, t_pars *d)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] != '1' && s[i] != ' ' && s[i] != '\t')
+			free_parsing(d, "error\nNon-conforming card55");
+		i++;
+	}
+}
+
+void	check_last_line(char *s, t_pars *d)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] != '1' && s[i] != ' ' && s[i] != '\t')
+			free_parsing(d, "error\nNon-conforming card55");
+		i++;
+	}
+}
+
 void	last_check(t_pars *d)
 {
 	char	**map;
@@ -200,31 +250,33 @@ void	last_check(t_pars *d)
 	int		map_len_y;
 	int		x;
 
-	map = &d->map_test[d->save_y];
-	y = -1;
-	map_len = found_the_most_insane_len(map);
+	map = &d->map_test[d->save_y - 1];
+	map = parse_map(map);
 	map_len_y = ft_tablen(map);
+	y = -1;
+	print_array(map);
+	check_first_line(map[0], d);
+	check_last_line(map[map_len_y - 1], d);
+	map_len = found_the_most_insane_len(map);
 	while (map[++y])
 	{
 		x = -1;
 		while (map[y][++x] && x < map_len)
 		{
-			if (map[y][0] == '0')
-				free_parsing(d, "error\nNon-conforming card");
 			if (map[y][x] == '0' && x > 0)
 				if (map[y][x - 1] <= 32)
-					free_parsing(d, "error\nNon-conforming card");
+					free_parsing(d, "error\nNon-conforming card9");
 			if (map[y][x] == '0' && y > 0)
 				if (map[y - 1][x] <= 32)
-					free_parsing(d, "error\nNon-conforming card");
+					free_parsing(d, "error\nNon-conforming card10");
 			if ((x + 1 < (int)ft_strlen(map[y])) && map[y][x] == '0')
-				if (map[y][x + 1] <= 32)
-					free_parsing(d, "error\nNon-conforming card");
+				if (map[y][x + 1] <= 32 || !map[y][x + 1])
+					free_parsing(d, "error\nNon-conforming card11");
 			if ((x + 1 >= (int)ft_strlen(map[y])) && map[y][x] == '0')
-				free_parsing(d, "error\nNon-conforming card");
+				free_parsing(d, "error\nNon-conforming card12");
 			if ((y + 1 < map_len_y) && map[y][x] == '0')
-				if (map[y + 1][x] <= 32)
-					free_parsing(d, "error\nNon-conforming card");
+				if (map[y + 1][x] <= 32 || !map[y][x + 1])
+					free_parsing(d, "error\nNon-conforming card13");
 		}
 	}
 	printf("\nokokokokok\n");
@@ -237,25 +289,14 @@ void	last_check(t_pars *d)
 			if (map[y][x] != '1' && map[y][x] != '0' && map[y][x] != ' '
 				&& map[y][x] != 'N' && map[y][x] != 'S' && map[y][x] != 'E'
 				&& map[y][x] != 'W')
-				free_parsing(d, "error\nNon-conforming card");
-			if (map[y][x] == 'N')
+				free_parsing(d, "error\nNon-conforming card7");
+			if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'E'
+				|| map[y][x] == 'W')
 				d->N++;
-			else if (map[y][x] == 'S')
-				d->S++;
-			else if (map[y][x] == 'E')
-				d->E++;
-			else if (map[y][x] == 'W')
-				d->W++;
 		}
 	}
-	if ((d->N > 0) && (d->S > 0 || d->W > 0 || d->E > 0))
-		free_parsing(d, "error\nNon-conforming card");
-	if ((d->S > 0) && (d->N > 0 || d->W > 0 || d->E > 0))
-		free_parsing(d, "error\nNon-conforming card");
-	if ((d->E > 0) && (d->S > 0 || d->W > 0 || d->N > 0))
-		free_parsing(d, "error\nNon-conforming card");
-	if ((d->W > 0) && (d->S > 0 || d->N > 0 || d->E > 0))
-		free_parsing(d, "error\nNon-conforming card");
+	if (map[y - 1][x - 1] != '1' || d->N != 1)
+		free_parsing(d, "error\nNon-conforming card1");
 	printf("\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
 }
 
