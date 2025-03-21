@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 18:15:56 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/17 19:43:58 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:09:04 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ char	**copy_map(t_pars *data)
 
 	line_map = ft_strdup("");
 	temp = get_next_line(data->fd);
+	if (!temp)
+		return(NULL);
 	while (temp)
 	{
 		old_line_map = line_map;
@@ -49,9 +51,7 @@ char	**copy_map(t_pars *data)
 		temp = get_next_line(data->fd);
 	}
 	if (line_map == NULL)
-	{
 		free(line_map);
-	}
 	else
 		cpy_map = ft_split(line_map, '\n');
 	free(line_map);

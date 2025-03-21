@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 18:39:16 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/14 18:39:35 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:15:43 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_array(char **array)
 	if (!array)
 	{
 		ft_printf("The array is empty or NULL.\n");
-		return ;
+		exit(1);
 	}
 	while (array[i])
 	{
