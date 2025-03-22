@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 18:15:56 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/21 17:09:04 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/22 21:27:44 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,9 @@ char	**copy_map(t_pars *data)
 		cpy_map = ft_split(line_map, '\n');
 	free(line_map);
 	return (cpy_map);
+}
+
+double cdir(int degres)
+{
+	return ((degres * M_PI) / 180);
 }

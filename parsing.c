@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:27:57 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/21 17:59:42 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/22 21:48:21 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,7 +337,6 @@ void	last_check(t_pars *d)
 					free_parsing(d, "error\nNon-conforming card13");
 		}
 	}
-	printf("\nokokokokok\n");
 	y = -1;
 	while (map[++y])
 	{
@@ -350,12 +349,15 @@ void	last_check(t_pars *d)
 				free_parsing(d, "error\nNon-conforming card7");
 			if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'E'
 				|| map[y][x] == 'W')
+			{
 				d->N++;
+				d->x_player = x;
+				d->y_player = y;
+			}
 		}
 	}
 	if (map[y - 1][x - 1] != '1' || d->N != 1)
 		free_parsing(d, "error\nNon-conforming card1");
-	printf("\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
 }
 
 void	check_map(char *av, t_pars *d)
@@ -370,7 +372,6 @@ void	check_map(char *av, t_pars *d)
 	d->map_test = copy_map(d);
 	if (!d->map_test)
 	{
-		printf("\n\nrffrfrf\n\n");
 		close(d->fd);
 		free(d);
 		exit(1);

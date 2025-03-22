@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_array.c                                      :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 18:39:16 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/21 18:29:51 by kcharbon         ###   ########.fr       */
+/*   Created: 2025/03/22 20:25:17 by kcharbon          #+#    #+#             */
+/*   Updated: 2025/03/22 21:36:05 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../cub3d.h"
 
-void	print_array(char **array)
+void	init_data(t_data *d)
 {
-	int	i;
-
-	i = 0;
-	if (!array)
-	{
-		ft_printf("The array is empty or NULL.\n");
-		exit(1);
-	}
-	while (array[i])
-	{
-		ft_printf("Element %d: %s\n", i, array[i]);
-		i++;
-	}
+	d->dirX = 0;
+	d->dirY = 0;
+	d->planeX = 0;
+	d->planeY = 0;
+	d->camX = 0;
+	d->camY = 0;
+	d->y_player = -1;
+	d->x_player = -1;
 }
+
+
