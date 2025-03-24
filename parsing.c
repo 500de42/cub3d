@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:27:57 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/21 17:59:42 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/24 20:39:27 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,9 @@ void	check_rgb(t_pars *d, int *y, int *x)
 	int		j;
 	int		k;
 	char	*nb;
+	int		virg;
 
+	virg = 0;
 	if (d->map_test[*y][*x] != 'C' && d->map_test[*y][*x] != 'F')
 	{
 		printf("\n%c\n", d->map_test[*y][*x]);
@@ -197,14 +199,16 @@ void	check_rgb(t_pars *d, int *y, int *x)
 			free(nb);
 			free_parsing(d, "error\nNegative number not accepted\n");
 		}
+		if (d->map_test[*y][i] == ',')
+			virg++;
 		i++;
 	}
 	tab = ft_split(nb, ',');
 	free(nb);
-	if ((!tab || !tab[0] || !tab[1] || !tab[2]) || ft_tablen(tab) != 3)
+	if ((!tab || !tab[0] || !tab[1] || !tab[2]) || ft_tablen(tab) != 3 || virg != 2)
 	{
 		ft_free_array(tab);
-		free_parsing(d, "error\nSplit RGB\n");
+		free_parsing(d, "error\nRGB\n");
 	}
 	nb_rgb[0] = ft_atoll(tab[0]);
 	nb_rgb[1] = ft_atoll(tab[1]);
