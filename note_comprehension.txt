@@ -58,7 +58,30 @@ Rayons (rayDirX, rayDirY) | Calculés avec dir + plane * cameraX
 
 ------------------------------------------------------------------
 
+ Pourquoi cos() et sin() sont utiles en Cub3D ?
 
+✅ Calculer la direction du joueur :
+Si angle = 0°, il regarde à droite → (cos(0), sin(0)) = (1,0).
+Si angle = 90°, il regarde en haut → (cos(π/2), sin(π/2)) = (0,1).
+
+✅ Tourner le joueur :
+Si tu veux faire tourner le joueur, tu peux modifier son angle et recalculer dirX et dirY avec cos() et sin().
+
+✅ Calculer le plan de la caméra :
+Le "plan caméra" est perpendiculaire à dirX, dirY, donc on utilise :
+
+planeX = -sin(angle) * 0.66;
+planeY = cos(angle) * 0.66;
+
+🎯 Résumé
+
+    cos(θ) donne la position en X d'un point sur un cercle.
+
+    sin(θ) donne la position en Y d'un point sur un cercle.
+
+    En Cub3D, on les utilise pour calculer la direction du joueur et faire tourner la caméra.
+
+    On peut utiliser cos() et sin() en C avec <math.h>.
 
 ------------------------------------------------------------------
 Application en Cub3D
