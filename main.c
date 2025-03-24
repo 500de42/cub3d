@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:38:04 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/22 22:06:28 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/24 20:10:38 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int ac, char **av)
 	init_pars(p);
 	check_map(av[1], p);
 	d = malloc(sizeof(t_data));
-	if (!p)
+	if (!d)
 		free_parsing(p, "Error\nMalloc t_data");
-	init_data(d);
+	init_data(d, p);
 }

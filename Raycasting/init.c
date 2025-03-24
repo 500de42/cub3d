@@ -6,13 +6,13 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 20:25:17 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/22 21:36:05 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/24 20:08:56 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	init_data(t_data *d)
+void	init_data(t_data *d, t_pars *p)
 {
 	d->dirX = 0;
 	d->dirY = 0;
@@ -20,8 +20,8 @@ void	init_data(t_data *d)
 	d->planeY = 0;
 	d->camX = 0;
 	d->camY = 0;
-	d->y_player = -1;
-	d->x_player = -1;
+	d->y_player = p->y_player;
+	d->x_player = p->x_player;
 }
 
 

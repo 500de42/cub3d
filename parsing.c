@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:27:57 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/22 21:48:21 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/24 20:04:47 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ void	check_rgb(t_pars *d, int *y, int *x)
 	int		j;
 	int		k;
 	char	*nb;
+	int virg = 0;
 
 	if (d->map_test[*y][*x] != 'C' && d->map_test[*y][*x] != 'F')
 	{
@@ -197,11 +198,13 @@ void	check_rgb(t_pars *d, int *y, int *x)
 			free(nb);
 			free_parsing(d, "error\nNegative number not accepted\n");
 		}
+		if (d->map_test[*y][i] == ',')
+			virg++;
 		i++;
 	}
 	tab = ft_split(nb, ',');
 	free(nb);
-	if ((!tab || !tab[0] || !tab[1] || !tab[2]) || ft_tablen(tab) != 3)
+	if ((!tab || !tab[0] || !tab[1] || !tab[2]) || ft_tablen(tab) != 3 || virg != 2)
 	{
 		ft_free_array(tab);
 		free_parsing(d, "error\nSplit RGB\n");

@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/22 21:52:33 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/24 20:11:00 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void		free_parsing(t_pars *d, char *s);
 
 ///////////////// UTILS/////////////////////////
 
-void		init_data(t_data *d);
+void		init_data(t_data *d, t_pars *p);
 void		init_pars(t_pars *p);
+double		cdir(int degres);
 
 #endif

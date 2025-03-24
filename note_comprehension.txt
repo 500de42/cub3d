@@ -1,0 +1,74 @@
+1. Direction du joueur (dirX, dirY)
+
+C'est le vecteur qui indique où regarde le joueur. Il correspond à l'axe avant/arrière du joueur.
+
+Exemple :
+
+    S'il regarde vers la droite (est), alors dirX = 1 et dirY = 0.
+
+    S'il regarde vers le haut (nord), alors dirX = 0 et dirY = -1.
+
+    S'il regarde vers la gauche (ouest), alors dirX = 0 et dirY = -1.
+
+    S'il regarde vers le bas (sud), alors dirX = 0 et dirY = 1.
+
+Ce vecteur est crucial pour déterminer la direction des rayons lors du raycasting.
+
+--------------------------------------------------------------
+
+2. Direction de la caméra (planeX, planeY)
+
+Ce n'est pas la même que la direction du joueur. Elle définit l’angle de vision (le champ de vision).
+
+Si on imagine une caméra qui regarde droit devant elle, elle a aussi une certaine largeur de vision. Ce "plan" est un vecteur perpendiculaire à la direction du joueur et il sert à calculer l'angle des rayons envoyés vers l'écran.
+
+Exemple :
+
+    Si dirX = 1 et dirY = 0 (regarde vers l'est), alors planeX = 0 et planeY = 0.66 (valeur standard pour un champ de vision de 66°).
+
+    Si dirX = 0 et dirY = -1 (regarde vers le nord), alors planeX = 0.66 et planeY = 0.
+
+On le déduit par une rotation de 90° du vecteur direction :
+
+planeX = dirY * -FOV_SCALE;
+planeY = dirX * FOV_SCALE;
+
+Avec FOV_SCALE = 0.66 pour un champ de vision standard.
+
+---------------------------------------------------------------
+
+3. Pourquoi ce "plan" est important ?
+
+Il permet de calculer la direction des rayons projetés sur chaque colonne de l’écran.
+L'idée est d'envoyer des rayons dans un angle compris entre -plane et +plane, en additionnant une portion de plane à dir pour chaque pixel de l'écran.
+
+Formule pour un rayon rayDirX, rayDirY à une colonne x de l’écran :
+
+double cameraX = 2 * x / (double)screenWidth - 1; // Transforme x en coordonnée [-1,1]
+rayDirX = dirX + planeX * cameraX;
+rayDirY = dirY + planeY * cameraX;
+
+-----------------------------------------------------------------
+
+Résumé :
+Élément	Description
+Direction (dirX, dirY) |	Où regarde le joueur (avant/arrière)
+Plan (planeX, planeY)  | Largeur du champ de vision (perpendiculaire à dir)
+Rayons (rayDirX, rayDirY) | Calculés avec dir + plane * cameraX
+
+------------------------------------------------------------------
+
+
+
+------------------------------------------------------------------
+Application en Cub3D
+
+Si ton joueur tourne de 10° à gauche, tu fais :
+
+angle += 10 * M_PI / 180; // Ajoute 10° en radians
+dirX = cos(angle);
+dirY = sin(angle);
+
+Ça met à jour la direction du joueur. 🎮
+
+
