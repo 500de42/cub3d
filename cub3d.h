@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/24 20:11:00 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/25 19:58:32 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,21 @@
 # ifndef M_PI
 #  define M_PI 3.14159265
 # endif
+# ifndef SCREEN_WIDTH
+#  define SCREEN_WIDTH 1920
+# endif
+# ifndef SCREEN_HEIGHT
+#  define SCREEN_HEIGHT 1080
+# endif
 
 typedef struct t_data
 {
 	char	**map;
+	double	cam;
+	double	ray_dirX;
+	double	ray_dirY;
+	double	deltaX;
+	double	deltaY;
 	int		y_player;
 	int		x_player;
 	int		dirX;
@@ -33,6 +44,7 @@ typedef struct t_data
 	int		planeY;
 	int		camX;
 	int		camY;
+	int		WIN_WIDTH;
 }			t_data;
 
 typedef struct t_pars
@@ -43,11 +55,10 @@ typedef struct t_pars
 	int		WE;
 	int		EA;
 	int		N;
-	int		S;
-	int		E;
-	int		W;
 	int		F;
 	int		C;
+	char	d;
+	int		len;
 	int		save_y;
 	int		y_player;
 	int		x_player;

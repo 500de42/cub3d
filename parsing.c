@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:27:57 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/24 20:04:47 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:45:40 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,6 +319,7 @@ void	last_check(t_pars *d)
 	check_first_line(map[0], d);
 	check_last_line(map[map_len_y - 1], d);
 	map_len = found_the_most_insane_len(map);
+	d->len = map_len;
 	while (map[++y])
 	{
 		x = -1;
@@ -354,6 +355,7 @@ void	last_check(t_pars *d)
 				|| map[y][x] == 'W')
 			{
 				d->N++;
+				d->d = map[y][x];
 				d->x_player = x;
 				d->y_player = y;
 			}

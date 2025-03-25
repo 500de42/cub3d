@@ -94,4 +94,43 @@ dirY = sin(angle);
 
 Ça met à jour la direction du joueur. 🎮
 
+------------------------------------------------------------------
 
+📌 Récapitulatif des directions
+Direction du joueur	dirX	dirY
+Nord (↑)	0	-1
+Sud (↓)	    0	1
+Est (→)	    1	0
+Ouest (←)	-1	0
+
+------------------------------------------------------------------
+
+📌 1️⃣ Pourquoi calculer deltaDistX et deltaDistY ?
+
+Quand on envoie un rayon dans la grille de la map, on veut avancer jusqu’à toucher un mur (1).
+Mais le rayon ne va pas avancer pixel par pixel, il va sauter de case en case.
+Exemple de grille (vue du dessus) :
+
++----+----+----+----+
+|    |    |    |    |
+| P  | -> | -> | W  |  (P = Joueur, W = Mur)
+|    |    |    |    |
++----+----+----+----+
+
+    P → Position du joueur.
+
+    -> → Rayon avançant vers la droite.
+
+    W → Mur (case 1 dans la map).
+
+✅ On doit savoir à quelle distance se trouve la prochaine ligne verticale et horizontale.
+C’est ce que deltaDistX et deltaDistY permettent de calculer.
+
+--- fabs() retourne la valeur absolue d’un nombre flottant (double).
+
+    Cela signifie qu’il transforme un nombre négatif en positif.
+
+Exemple :
+
+printf("%f\n", fabs(3.5));   // Affiche 3.5
+printf("%f\n", fabs(-2.8));  // Affiche 2.8
