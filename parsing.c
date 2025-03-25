@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:27:57 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/24 20:39:27 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:50:49 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	check_path_sprite(t_pars *d, int *y, int *x, int s)
 {
 	int		i;
 	char	*st;
-
+	int len;
 	(*x) += 2;
 	if (d->map_test[*y][*x] != ' ' && d->map_test[*y][*x] != '\t')
 		free_parsing(d, "error\nexpected format: <NO ./path>\n");
@@ -61,6 +61,8 @@ void	check_path_sprite(t_pars *d, int *y, int *x, int s)
 	if (!st)
 		free_parsing(d, "error\n");
 	ft_strlcpy(st, &d->map_test[*y][*x], (i - (*x)) + 1);
+	if (!st)
+		free_parsing(d, "error\n");
 	while (d->map_test[*y][i])
 	{
 		if (d->map_test[*y][i] > 32)
@@ -69,6 +71,12 @@ void	check_path_sprite(t_pars *d, int *y, int *x, int s)
 			free_parsing(d, "error\nBad character for sprite\n");
 		}
 		i++;
+	}
+	len = ft_strlen(st);
+	if (len < 4 || ft_strncmp(&st[len - 4], ".xpm", 4) != 0)
+	{
+		free(st);
+		free_parsing(d, "error\nFormat attendu : <.xpm>\n");
 	}
 	if (access(st, X_OK) == -1)
 	{
