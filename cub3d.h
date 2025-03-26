@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/25 19:58:32 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/26 18:06:22 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ typedef struct t_data
 	double	ray_dirY;
 	double	deltaX;
 	double	deltaY;
+	double	camX;
+	double	posX;
+	double	posY;
+	double	dirX;
+	double	dirY;
 	int		y_player;
 	int		x_player;
-	int		dirX;
-	int		dirY;
 	int		planeX;
 	int		planeY;
-	int		camX;
-	int		camY;
-	int		WIN_WIDTH;
 }			t_data;
 
 typedef struct t_pars
@@ -63,7 +63,6 @@ typedef struct t_pars
 	int		y_player;
 	int		x_player;
 	char	**map_test;
-
 }			t_pars;
 
 //////////////// PARSING //////////////////////

@@ -134,3 +134,80 @@ Exemple :
 
 printf("%f\n", fabs(3.5));   // Affiche 3.5
 printf("%f\n", fabs(-2.8));  // Affiche 2.8
+
+-------------------------------------------------------------------
+
+Les variables step_x et step_y déterminent la direction dans laquelle le rayon se déplace à travers la grille
+
+Les variables sideX et sideY représentent initialement la distance que le rayon doit parcourir depuis
+sa position actuelle jusqu'à la ligne suivante de la grille, dans la direction x ou y
+
+1️⃣ posX sert pour les déplacements précis du Joueur.
+2️⃣ mapX sert pour savoir dans quelle case de la carte on est.
+
+-- Mise à jour de posX lors des déplacements
+Quand le joueur avance (W, S, A, D), on modifie posX et posY en ajoutant la direction multipliée par une petite vitesse.
+
+---
+double moveSpeed = 0.1; // Plus petit = déplacement plus lent
+
+if (key == 'W') // Avancer
+{
+    d->posX += d->dirX * moveSpeed;
+    d->posY += d->dirY * moveSpeed;
+}
+if (key == 'S') // Reculer
+{
+    d->posX -= d->dirX * moveSpeed;
+    d->posY -= d->dirY * moveSpeed;
+}
+---
+👉 dirX et dirY donnent la direction du joueur, donc posX et posY changent progressivement.
+
+
+--------------------------------------------------------------------
+
+Calcul de sideX et sideY
+Ces valeurs indiquent à quelle distance se trouve la première intersection avec une ligne verticale (sideX) et une ligne horizontale (sideY).
+
+📌 Si le rayon va vers la gauche (rayDirX < 0)
+👉 Il va d'abord toucher le bord gauche de la case actuelle, donc :
+
+
+
+Explication de sideX
+Cas 1 : ray_dirX < 0 (le rayon va vers la gauche)
+
+sideX = (posX - mapX) * deltaDistX;
+📌 On calcule la distance entre la position du joueur et le bord gauche de la case actuelle (mapX).
+
+posX est un double et donne la position précise du joueur.
+
+mapX est un int et donne la position de la case entière.
+
+posX - mapX donne la distance entre le joueur et le bord gauche de la case.
+
+deltaDistX est la distance nécessaire pour traverser une case entière en X.
+
+💡 Exemple :
+Si posX = 3.7 et mapX = 3, alors :
+
+sideX = (3.7 - 3) * deltaDistX;
+sideX = 0.7 * deltaDistX;
+✅ Ça signifie que le rayon est à 0.7 cases du bord gauche.
+
+
+
+Cas 2 : ray_dirX > 0 (le rayon va vers la droite)
+
+sideX = (mapX + 1.0 - posX) * deltaDistX;
+📌 On calcule la distance entre la position du joueur et le bord droit de la case actuelle (mapX + 1.0).
+
+💡 Exemple :
+Si posX = 3.7 et mapX = 3, alors :
+
+
+sideX = (3 + 1.0 - 3.7) * deltaDistX;
+sideX = (4.0 - 3.7) * deltaDistX;
+sideX = 0.3 * deltaDistX;
+✅ Ça signifie que le rayon est à 0.3 cases du bord droit.
