@@ -1,3 +1,15 @@
+🧮 En mathématiques (géométrie ou algèbre linéaire) :
+
+    Un vecteur est un objet mathématique défini par une direction, un sens, et une norme (longueur).
+
+On le représente souvent par une flèche allant d’un point A à un point B.
+
+    Direction : la droite ou ligne que suit le vecteur.
+
+    Sens : du point de départ vers le point d’arrivée.
+
+    Norme : la longueur du vecteur (souvent notée ||v||).
+
 1. Direction du joueur (dirX, dirY)
 
 C'est le vecteur qui indique où regarde le joueur. Il correspond à l'axe avant/arrière du joueur.
@@ -20,7 +32,8 @@ Ce vecteur est crucial pour déterminer la direction des rayons lors du raycasti
 
 Ce n'est pas la même que la direction du joueur. Elle définit l’angle de vision (le champ de vision).
 
-Si on imagine une caméra qui regarde droit devant elle, elle a aussi une certaine largeur de vision. Ce "plan" est un vecteur perpendiculaire à la direction du joueur et il sert à calculer l'angle des rayons envoyés vers l'écran.
+Si on imagine une caméra qui regarde droit devant elle, elle a aussi une certaine largeur de vision.
+Ce "plan" est un vecteur perpendiculaire à la direction du joueur et il sert à calculer l'angle des rayons envoyés vers l'écran.
 
 Exemple :
 

@@ -6,16 +6,11 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:38:04 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/24 20:10:38 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:39:53 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// void init_struct(t_data *d)
-// {
-// 	d->fd = -1;
-// }
 
 void	init_pars(t_pars *p)
 {
@@ -25,10 +20,7 @@ void	init_pars(t_pars *p)
 	p->NO = 0;
 	p->SO = 0;
 	p->WE = 0;
-	p->E = 0;
-	p->W = 0;
 	p->N = 0;
-	p->S = 0;
 	p->C = 0;
 	p->F = 0;
 }
