@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 20:44:40 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/27 18:29:30 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/28 19:01:03 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,15 @@ void	calcul_rayon(t_pars *p, t_data *d)
 	int		stepY;
 	double	sideX;
 	double	sideY;
-	int 	sens_Wall;
-	int 	mapX;
+	int		sens_Wall;
+	int		mapX;
 	int		mapY;
 	int		hit;
 	int		x;
+	double	distance_wall;
+	int		wall_height;
+	int		draw_start;
+	int		draw_end;
 
 	hit = 0;
 	x = 0;
@@ -102,5 +106,18 @@ void	calcul_rayon(t_pars *p, t_data *d)
 			if (d->map[mapY][mapX] == '1')
 				hit = 1;
 		}
+		if (sens_Wall == 1)
+			distance_wall = sideY - d->deltaY;
+		else if (sens_Wall == 0)
+			distance_wall = sideX - d->deltaX;
+		distance_wall = distance_wall / fabs(d->ray_dirX * d->dirX + d->ray_dirY
+				* d->dirY);
+		wall_height = SCREEN_HEIGHT / distance_wall;
+		draw_start = -wall_height / 2 + SCREEN_HEIGHT / 2;
+		draw_end = wall_height / 2 + SCREEN_HEIGHT / 2;
+		if (draw_start < 0)
+			draw_start = 0;
+		if (draw_end > SCREEN_HEIGHT)
+			draw_end = SCREEN_HEIGHT - 1;
 	}
 }

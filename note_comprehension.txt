@@ -224,3 +224,184 @@ sideX = (3 + 1.0 - 3.7) * deltaDistX;
 sideX = (4.0 - 3.7) * deltaDistX;
 sideX = 0.3 * deltaDistX;
 ✅ Ça signifie que le rayon est à 0.3 cases du bord droit.
+
+----------------------------------------------------------------------
+
+Calcul de la distance entre le joueur et le mur
+Une fois que le rayon touche un mur (hit = 1), on doit calculer la distance entre le joueur et le mur.
+Le mur peut être atteint en touchant une ligne verticale (mur gauche/droite) ou une ligne horizontale (mur haut/bas).
+
+Formule :
+{
+    double distance_wall;
+
+    if (sens_Wall == 0) // Mur vertical touché
+	    distance_wall = (sideX - d->deltaX);
+    else // Mur horizontal touché
+	    distance_wall = (sideY - d->deltaY);
+}
+Pourquoi sideX - d->deltaX et sideY - d->deltaY ?
+Explication avec un mur vertical (sens_Wall == 0)
+sideX représente la distance totale depuis le joueur jusqu'à la dernière intersection verticale.
+
+d->deltaX est la distance entre chaque ligne verticale.
+
+On soustrait d->deltaX car sideX a déjà été incrémenté une dernière fois dans la boucle DDA.
+
+-----------------------------------------------------------------------
+
+Correction de l'effet fish-eye
+Pourquoi doit-on corriger ?
+Le raycasting utilise des rayons en éventail, donc les rayons latéraux sont plus longs que celui du centre.
+👉 Cela crée une illusion de mur déformé : les murs sur les côtés paraissent plus grands que ceux en face.
+
+Sans correction :
+
+|------    -----|
+|       \_/     |
+|        P      |
+|       / \     |
+|------    -----|
+
+Les murs sur les côtés semblent plus grands qu'ils ne le sont réellement.
+
+Formule de correction :
+
+distance_wall = distance_wall / fabs(d->ray_dirX * d->dirX + d->ray_dirY * d->dirY);
+Explication détaillée de la correction
+La distance calculée (distance_wall) est biaisée par l’angle du rayon.
+👉 On doit projeter la distance sur l’axe de la direction du joueur.
+
+Pourquoi cette formule ?
+Produit scalaire entre (ray_dirX, ray_dirY) et (dirX, dirY)
+
+(dirX, dirY) → Vecteur de direction du joueur.
+
+(ray_dirX, ray_dirY) → Vecteur du rayon en cours.
+
+Leur produit scalaire donne le cosinus de l'angle entre eux.
+
+Diviser par cos(angle) pour obtenir la distance correcte
+
+cos(angle) = (ray_dirX * dirX + ray_dirY * dirY)
+
+distance_wall = distance_wall / fabs(d->ray_dirX * d->dirX + d->ray_dirY * d->dirY);
+
+d->ray_dirX * d->dirX → aligne la direction du rayon avec l’axe X du joueur.
+
+d->ray_dirY * d->dirY → aligne la direction du rayon avec l’axe Y du joueur.
+
+fabs() prend la valeur absolue pour éviter les distances négatives.
+
+Cela annule la distorsion angulaire et donne la vraie distance perpendiculaire au mur.
+
+--------------------------------------------------------------------------
+
+Produit scalaire expliqué simplement
+Le produit scalaire est une opération mathématique entre deux vecteurs qui donne une mesure de leur alignement.
+
+Formule du produit scalaire :
+Si on a deux vecteurs A et B :
+
+    A⋅B= A × B + A × B 
+    
+👉 Cela donne un nombre (scalaire), et non un vecteur.
+
+Exemple concret
+Imaginons deux vecteurs :
+
+Direction du joueur : D = (1,0) → Il regarde vers la droite.
+
+Direction d’un rayon : 𝑅= (0.8,0.6) → Il est légèrement incliné vers le haut.
+
+Le produit scalaire est :
+
+    (1×0.8)+(0×0.6)=0.8
+
+👉 Cela correspond au cosinus de l’angle entre les deux vecteurs, multiplié par leur norme.
+
+---------------------------------------------------------------------------
+
+1️⃣ Calcul de la hauteur du mur
+L'objectif ici est de calculer la taille du mur en fonction de la distance entre le joueur et le mur.
+
+Formule générale :
+
+wall_height = SCREEN_HEIGHT / distance_wall
+​
+ 
+Explications :
+
+SCREEN_HEIGHT : La hauteur de la fenêtre d'affichage (en pixels).
+
+distance_wall : La distance perpendiculaire entre le joueur et le mur, calculée dans la boucle DDA (comme on l'a vu précédemment). Cette distance doit être corrigée pour éviter l'effet fish-eye, en divisant par le produit scalaire.
+
+wall_height : La hauteur du mur projeté sur l'écran. C'est ce qui détermine la taille du mur à afficher.
+
+Pourquoi cette formule ?
+Plus le mur est proche, plus la distance_wall est petite, donc wall_height sera plus grande (le mur sera grand sur l'écran).
+
+Plus le mur est loin, plus la distance_wall est grande, donc wall_height sera plus petite (le mur sera petit sur l'écran).
+
+Exemple :
+Supposons que la SCREEN_HEIGHT soit de 480 pixels et que la distance_wall soit de 4.0 unités. Le calcul serait :
+
+wall_height = 480 / 4.0 = 120
+Cela signifie que le mur aura une hauteur de 120 pixels à l'écran.
+
+2️⃣ Détermination des pixels à dessiner (draw_start et draw_end)
+Une fois que tu as calculé la hauteur du mur (wall_height), il faut définir où dessiner ce mur sur l'écran. Le mur doit être placé à l'endroit où il doit apparaître, en fonction de l'angle du rayon.
+
+Formules pour draw_start et draw_end :
+
+draw_start : La position du début du mur à l'écran (y-coordinate).
+draw_end : La position de la fin du mur à l'écran (y-coordinate).
+
+Les deux sont calculés en fonction de la hauteur du mur (wall_height), ainsi que de la position verticale du joueur (qui est généralement au centre de l'écran).
+
+Formule pour draw_start :
+
+draw_start = −wall_height 2 + SCREEN_HEIGHT 2
+ 
+Cela positionne le mur de façon centrée verticalement. Le mur commence un peu au-dessus du centre de l'écran, puis il est agrandi en fonction de la hauteur du mur.
+
+Formule pour draw_end :
+
+draw_end = wall_height 2 + SCREEN_HEIGHT 2
+ 
+Cela permet au mur de se terminer à l'endroit où il est censé finir sur l'écran.
+
+Pourquoi faire cela ?
+Cela garantit que le mur est centré sur l'écran et a la taille correcte par rapport à la distance du joueur. Le haut du mur est calculé avec draw_start et le bas du mur est calculé avec draw_end. Il est important de s'assurer que ces valeurs restent dans les limites de l'écran.
+
+Correction des bords (cas limites) :
+Il se peut que draw_start ou draw_end dépasse la taille de l'écran (par exemple si wall_height est trop grand). Dans ce cas, il faut s'assurer que ces indices restent dans les limites de l'écran :
+{
+    if (draw_start < 0) draw_start = 0;
+    if (draw_end >= SCREEN_HEIGHT) draw_end = SCREEN_HEIGHT - 1;
+}
+Cela permet de ne jamais dépasser les bords de l'écran.
+
+3️⃣ Résumé avec un exemple concret
+Supposons les éléments suivants :
+
+La SCREEN_HEIGHT est de 480 pixels.
+
+La distance_wall calculée pour un rayon donné est 4.0.
+
+Le wall_height sera donc :
+
+wall_height = 480 / 4.0 = 120
+
+Maintenant, calculons les positions de dessin :
+draw_start :
+
+draw_start = −120 2 + 480 2 = −60 + 240 = 180
+
+Cela signifie que le début du mur commence à la ligne 180 de l'écran.
+draw_end :
+
+draw_end = 120 / 2 + 480 / 2 = 60 + 240 = 300
+Cela signifie que le mur se termine à la ligne 300 de l'écran.
+
+Les indices de pixels où le mur est dessiné vont de draw_start = 180 à draw_end = 300.
