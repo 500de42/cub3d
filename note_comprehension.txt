@@ -361,13 +361,13 @@ Les deux sont calculés en fonction de la hauteur du mur (wall_height), ainsi qu
 
 Formule pour draw_start :
 
-draw_start = −wall_height 2 + SCREEN_HEIGHT 2
+draw_start = −wall_height 2 + SCREEN_HEIGHT / 2
  
 Cela positionne le mur de façon centrée verticalement. Le mur commence un peu au-dessus du centre de l'écran, puis il est agrandi en fonction de la hauteur du mur.
 
 Formule pour draw_end :
 
-draw_end = wall_height 2 + SCREEN_HEIGHT 2
+draw_end = wall_height 2 + SCREEN_HEIGHT / 2
  
 Cela permet au mur de se terminer à l'endroit où il est censé finir sur l'écran.
 
@@ -405,3 +405,190 @@ draw_end = 120 / 2 + 480 / 2 = 60 + 240 = 300
 Cela signifie que le mur se termine à la ligne 300 de l'écran.
 
 Les indices de pixels où le mur est dessiné vont de draw_start = 180 à draw_end = 300.
+
+--------------------------------------------------------------------------------------
+
+Ajout de la coordonnée X du mur:
+
+{
+    if (sens_Wall == 0)
+        wall_x = d->posY + distance_wall * d->ray_dirY;
+    else
+        wall_x = d->posX + distance_wall * d->ray_dirX;
+    wall_x -= floor(wall_x);
+}
+
+Explication:
+
+Pourquoi if (sens_Wall == 0) ?
+
+Si sens_Wall == 0, ça veut dire que le cote toucher du mur est vertical → sa position précise est basée sur posY.
+
+Si sens_Wall == 1, le cote toucher du mur est horizontal → on prend posX.
+
+Pourquoi wall_x -= floor(wall_x); ?
+
+wall_x doit être un nombre entre 0 et 1, car une texture est une image dont les coordonnées X sont normalisées entre 0 et 1.
+
+floor(wall_x) enlève la partie entière pour ne garder que la position fractionnaire dans la texture.
+
+----------------------------------------------------------------------------------------
+
+Comprendre wall_x:
+
+wall_x sert à déterminer où exactement le rayon a touché le mur, afin de prélever la bonne partie de la texture pour l'affichage.
+(indique où le rayon a touché le mur en pourcentage de largeur)
+
+Si le mur touché est vertical (sens_Wall == 0) → la collision dépend de posY.
+
+Si le mur touché est horizontal (sens_Wall == 1) → la collision dépend de posX.
+
+Exemple avec un mur vertical (sens_Wall == 0)
+Données de départ :
+Position du joueur :
+
+    posX = 3.5
+
+    posY = 2.2
+
+Direction du rayon :
+
+    ray_dirX = 0.8
+
+    ray_dirY = -0.6
+
+Distance au mur détectée :
+
+    distance_wall = 4.0
+
+Sens de la collision :
+
+    sens_Wall = 0 (mur vertical touché)
+
+Calcul de wall_x
+Quand un mur vertical est touché, on utilise la formule :
+
+    wall_x = posY + distance_wall * ray_dirY
+Remplacement avec les valeurs :
+
+    wall_x = 2.2 + (4.0 * -0.6)
+
+    wall_x = 2.2 - 2.4
+
+    wall_x = -0.2
+Le problème est que wall_x peut être négatif ou dépasser 1, donc on doit le normaliser.
+
+Normalisation de wall_x
+On veut que wall_x soit toujours entre 0 et 1 pour qu'il corresponde à une coordonnée de texture.
+
+Pour ça, on soustrait la partie entière :
+
+    wall_x = wall_x - floor(wall_x)
+Remplacement :
+
+    wall_x = -0.2 - floor(-0.2)
+
+    wall_x = -0.2 - (-1)
+
+    wall_x = 0.8
+Conclusion
+On a trouvé que wall_x = 0.8, ce qui signifie que le rayon a touché le mur à 80% de sa largeur.
+
+👉 Cette valeur sera utilisée pour prélever le bon pixel dans la texture du mur.
+
+Exemple avec un mur horizontal (sens_Wall == 1)
+Si le mur touché est horizontal, la formule change :
+
+wall_x = posX + distance_wall * ray_dirX
+Les étapes sont exactement les mêmes, sauf qu'on prend posX et ray_dirX au lieu de posY et ray_dirY.
+
+--------------------------------------------------------------------------
+
+Convertir wall_x en coordonnée de texture
+On a calculé wall_x, qui nous donne où le rayon a touché le mur sur sa face visible.
+Maintenant, on doit convertir cette information pour trouver la bonne colonne de pixels dans la texture.
+
+Une texture de mur est souvent un carré de 64x64 pixels (on va supposer TEXTURE_WIDTH = 64).
+
+wall_x est un nombre entre 0 et 1, qui indique où le rayon a touché le mur en pourcentage de largeur.
+
+Formule pour convertir wall_x en coordonnée de texture
+
+texX = (int)(wall_x * TEXTURE_WIDTH);
+Exemple de conversion :
+
+Si wall_x = 0.3, alors :
+
+    texX = (int)(0.3 * 64) = (int)19.2 = 19
+
+👉 Cela signifie qu’on prendra la 19ᵉ colonne de pixels dans la texture du mur.
+
+Si wall_x = 0.8, alors :
+
+    texX = (int)(0.8 * 64) = (int)51.2 = 51
+
+👉 Cela signifie qu’on prendra la 51ᵉ colonne de pixels dans la texture du mur.
+
+
+--------------------------------------------------------------------------
+
+Correction pour éviter l’effet miroir:
+
+Un problème peut apparaître si le mur est affiché à l’envers dans certaines directions.
+Pour corriger cela, on applique une inversion de texX dans certains cas.
+
+Pourquoi inverser la texture ?
+Les textures sont stockées de gauche à droite, mais selon l’angle de la caméra, le mur peut être vu dans l’autre sens.
+Pour que l'affichage reste correct, on ajuste texX quand :
+
+Le mur est vertical (sens_Wall == 0) et le rayon part vers la droite (ray_dirX > 0).
+
+Le mur est horizontal (sens_Wall == 1) et le rayon part vers le bas (ray_dirY < 0).
+
+Correction du sens de la texture
+
+{
+    if (sens_Wall == 0 && ray_dirX > 0)
+        texX = TEXTURE_WIDTH - texX - 1;
+    if (sens_Wall == 1 && ray_dirY < 0)
+        texX = TEXTURE_WIDTH - texX - 1;
+}
+
+--------------
+
+Explication des inversions avec des exemples
+Cas 1 : Mur vertical (sens_Wall == 0)
+Rayon vers la gauche (ray_dirX < 0) → Pas d’inversion
+
+Rayon vers la droite (ray_dirX > 0) → Inversion
+
+Exemple sans inversion :
+Si wall_x = 0.2, alors texX = (int)(0.2 * 64) = 12.
+
+Exemple avec inversion (ray_dirX > 0)
+
+    texX = 64 - 12 - 1 = 51
+
+👉 La texture est bien affichée dans le bon sens.
+
+Cas 2 : Mur horizontal (sens_Wall == 1)
+Rayon vers le haut (ray_dirY > 0) → Pas d’inversion
+
+Rayon vers le bas (ray_dirY < 0) → Inversion
+
+Exemple sans inversion :
+Si wall_x = 0.6, alors texX = (int)(0.6 * 64) = 38.
+
+Exemple avec inversion (ray_dirY < 0)
+
+    texX = 64 - 38 - 1 = 25
+
+👉 La texture est bien affichée dans le bon sens.
+
+Résumé des calculs:
+
+On trouve wall_x pour savoir où le rayon touche le mur.
+
+On convertit wall_x en texX en multipliant par la largeur de la texture.
+
+On ajuste texX si nécessaire pour éviter l’effet miroir.

@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 20:44:40 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/28 19:01:03 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/03/31 19:58:27 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ void	calcul_rayon(t_pars *p, t_data *d)
 	int		wall_height;
 	int		draw_start;
 	int		draw_end;
-
+	double	wall_x;
+	int		textureX;
+	
 	hit = 0;
 	x = 0;
 	d->posX = d->x_player + 0.5;
@@ -89,7 +91,7 @@ void	calcul_rayon(t_pars *p, t_data *d)
 			stepY = 1;
 			sideY = ((mapY + 1.0 - d->posY) * d->deltaY);
 		}
-		while (!hit)
+		while (1)
 		{
 			if (sideX < sideY)
 			{
@@ -104,12 +106,20 @@ void	calcul_rayon(t_pars *p, t_data *d)
 				sens_Wall = 1;
 			}
 			if (d->map[mapY][mapX] == '1')
-				hit = 1;
+				break ;
+			;
 		}
 		if (sens_Wall == 1)
+		{
 			distance_wall = sideY - d->deltaY;
+			wall_x = d->posX + distance_wall * d->ray_dirX;
+		}
 		else if (sens_Wall == 0)
+		{
 			distance_wall = sideX - d->deltaX;
+			wall_x = d->posY + distance_wall * d->ray_dirY;
+		}
+		wall_x -= floor(wall_x);
 		distance_wall = distance_wall / fabs(d->ray_dirX * d->dirX + d->ray_dirY
 				* d->dirY);
 		wall_height = SCREEN_HEIGHT / distance_wall;
@@ -119,5 +129,10 @@ void	calcul_rayon(t_pars *p, t_data *d)
 			draw_start = 0;
 		if (draw_end > SCREEN_HEIGHT)
 			draw_end = SCREEN_HEIGHT - 1;
+		textureX = (int)(wall_x * 64); //64 = taille pixel
+		if (sens_Wall == 0 && d->ray_dirX > 0)
+			textureX = 64 - textureX - 1;
+		if (sens_Wall == 1 && d->ray_dirY < 0)
+			textureX = 64 - textureX - 1;
 	}
 }
