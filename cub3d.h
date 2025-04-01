@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/26 18:06:22 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:23:46 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct t_data
 	int		x_player;
 	int		planeX;
 	int		planeY;
+	int		*buff_texture;
 }			t_data;
 
 typedef struct t_pars
@@ -77,6 +78,9 @@ void		last_check(t_pars *d);
 int			found_the_most_insane_len(char **map);
 
 //////////////// RAYCASTING ////////////////////
+
+void		calcul_rayon(t_pars *p, t_data *d);
+int			init_buff_texture(t_data *d);
 
 /////////////// FREE ///////////////////////////
 

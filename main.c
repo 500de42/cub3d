@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:38:04 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/27 17:39:53 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:43:55 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,5 @@ int	main(int ac, char **av)
 	if (!d)
 		free_parsing(p, "Error\nMalloc t_data");
 	init_data(d, p);
+	calcul_rayon(p, d);
 }

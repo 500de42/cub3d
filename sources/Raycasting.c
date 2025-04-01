@@ -6,11 +6,27 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 20:44:40 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/31 19:58:27 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:48:02 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+#define TEXTURE_SIZE 64
+
+int init_buff_texture(t_data *d)
+{
+	int i = 0;
+
+	while (i++ < 4)
+	{
+		d->buff_texture[i] = malloc(TEXTURE_SIZE * TEXTURE_SIZE * (sizeof (int)));
+		if (!d->buff_texture[i])
+			return (-1);
+	}
+	return(0);
+}
+
 
 void	calcul_rayon(t_pars *p, t_data *d)
 {
@@ -21,7 +37,6 @@ void	calcul_rayon(t_pars *p, t_data *d)
 	int		sens_Wall;
 	int		mapX;
 	int		mapY;
-	int		hit;
 	int		x;
 	double	distance_wall;
 	int		wall_height;
@@ -29,8 +44,11 @@ void	calcul_rayon(t_pars *p, t_data *d)
 	int		draw_end;
 	double	wall_x;
 	int		textureX;
-	
-	hit = 0;
+	int		color;
+	double 	step;
+	double	pos;
+	int		dir;
+
 	x = 0;
 	d->posX = d->x_player + 0.5;
 	d->posY = d->y_player + 0.5;
@@ -107,7 +125,6 @@ void	calcul_rayon(t_pars *p, t_data *d)
 			}
 			if (d->map[mapY][mapX] == '1')
 				break ;
-			;
 		}
 		if (sens_Wall == 1)
 		{
@@ -120,8 +137,8 @@ void	calcul_rayon(t_pars *p, t_data *d)
 			wall_x = d->posY + distance_wall * d->ray_dirY;
 		}
 		wall_x -= floor(wall_x);
-		distance_wall = distance_wall / fabs(d->ray_dirX * d->dirX + d->ray_dirY
-				* d->dirY);
+		distance_wall = distance_wall / fabs((d->ray_dirX * d->dirX)
+				+ (d->ray_dirY * d->dirY));
 		wall_height = SCREEN_HEIGHT / distance_wall;
 		draw_start = -wall_height / 2 + SCREEN_HEIGHT / 2;
 		draw_end = wall_height / 2 + SCREEN_HEIGHT / 2;
@@ -129,10 +146,20 @@ void	calcul_rayon(t_pars *p, t_data *d)
 			draw_start = 0;
 		if (draw_end > SCREEN_HEIGHT)
 			draw_end = SCREEN_HEIGHT - 1;
-		textureX = (int)(wall_x * 64); //64 = taille pixel
-		if (sens_Wall == 0 && d->ray_dirX > 0)
-			textureX = 64 - textureX - 1;
-		if (sens_Wall == 1 && d->ray_dirY < 0)
-			textureX = 64 - textureX - 1;
+		textureX = (int)(wall_x * TEXTURE_SIZE); // 64 = taille pixel
+		if ((sens_Wall == 0 && d->ray_dirX > 0) || (sens_Wall == 1 && d->ray_dirY < 0))
+			textureX = TEXTURE_SIZE - textureX - 1;
+		step = 1.0 * TEXTURE_SIZE / wall_height;
+		pos = (draw_start - SCREEN_HEIGHT / 2 + wall_height / 2) * step;
+		if (init_buff_texture(d) == -1)
+			//free tout
+		while (draw_start < draw_end)
+		{
+			pos += step;
+			color = (d->buff_texture)[dir][TEXTURE_SIZE * ((int)pos & (TEXTURE_SIZE - 1)) + textureX];
+			draw_start++;
+		}
 	}
 }
+
+//faire une fonction qui actualise la direction du joueur, a mettre dans la variable dir

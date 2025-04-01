@@ -1,5 +1,5 @@
 NAME = cub3D
-SRC  = main.c parsing.c utils.c
+SRC  = main.c parsing.c utils.c sources/init.c sources/Raycasting.c
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror -fPIE -g3
 LIBFTDIR = libft/
