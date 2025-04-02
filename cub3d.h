@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/01 20:23:46 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:52:09 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,11 @@ typedef struct t_data
 	int		x_player;
 	int		planeX;
 	int		planeY;
-	int		*buff_texture;
+	int		*buff_texture[4];
+	int 	*texture_buffer[4]; // Stocke les textures sous forme de tableau 1D
+	void 	*textures[4];      // Pointeurs vers les images MLX
+	char 	*tex_addr[4];      // Adresses mémoire des textures
+	int 	tex_bpp, tex_line_length, tex_endian;
 }			t_data;
 
 typedef struct t_pars

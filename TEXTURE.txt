@@ -1,0 +1,107 @@
+Qu’est-ce que les offsets ?
+
+Les offsets sont des décalages en mémoire pour accéder aux pixels d’une image. En gros, chaque pixel a une position spécifique en mémoire, et l’offset permet de savoir où il se trouve.
+
+-----------------------
+
+1️⃣ int *texture_buffer[NUM_TEXTURES];
+
+👉 Stocke les pixels des textures sous forme d’un tableau 1D.
+Chaque texture est un tableau d’entiers, où chaque entier représente un pixel.
+
+Exemple :
+Si on a une texture de 64×64, alors texture_buffer[n] aura 64 × 64 = 4096 valeurs.
+
+👉 Accéder à un pixel :
+
+int pixel_color = texture_buffer[n][y * TEX_WIDTH + x];
+
+Ici, y * TEX_WIDTH + x nous donne l’offset du pixel.
+2️⃣ void *textures[NUM_TEXTURES];
+
+👉 Stocke les pointeurs vers les images MLX.
+Ces pointeurs sont créés avec mlx_xpm_file_to_image().
+
+Exemple :
+
+    textures[n] = mlx_xpm_file_to_image(mlx, "path_to_texture.xpm", &width, &height);
+
+3️⃣ char *tex_addr[NUM_TEXTURES];
+
+👉 Contient l’adresse mémoire brute des pixels de l’image MLX.
+Cette adresse est récupérée avec mlx_get_data_addr().
+
+Exemple :
+
+    tex_addr[n] = mlx_get_data_addr(textures[n], &tex_bpp, &tex_line_length, &tex_endian);
+
+Ça permet d’accéder aux pixels directement sans passer par mlx_pixel_put(), ce qui est beaucoup plus rapide.
+4️⃣ int tex_bpp; (Bits Per Pixel)
+
+👉 Indique combien de bits sont utilisés pour stocker un pixel.
+Généralement 32 bits (4 octets) : R G B A (Rouge, Vert, Bleu, Alpha).
+5️⃣ int tex_line_length;
+
+👉 Largeur d’une ligne en mémoire (en octets).
+Ce n’est pas forcément TEX_WIDTH * 4, car la mémoire peut être alignée pour optimiser les performances.
+
+Exemple :
+    Si tex_line_length = 260 mais TEX_WIDTH * 4 = 256, ça veut dire que 4 octets sont ajoutés à la fin de chaque ligne en mémoire pour l’alignement.
+
+6️⃣ int tex_endian;
+
+👉 Indique si l’image est en big endian ou little endian.
+
+    0 = Little endian (ordre des couleurs en mémoire : BGRA).
+
+    1 = Big endian (ordre des couleurs : ARGB).
+
+--------------------------------------------------------------------------------------------------------
+
+step = 1.0 * TEXTURE_SIZE / line_height;
+
+Objectif : Calculer le pas vertical dans la texture.
+
+Explication : step représente combien de pixels de la texture correspondent à un pixel sur l'écran lorsque vous dessinez une ligne verticale du mur.
+Calcul : TEXTURE_SIZE est la hauteur de la texture (64 pixels), et line_height est la hauteur du mur projeté sur l'écran. En divisant TEXTURE_SIZE par line_height, vous obtenez le facteur d'échelle pour mapper la texture sur la hauteur du mur à l'écran.
+
+---------------
+
+pos = (draw_start - WIN_HEIGHT / 2 + line_height / 2) * step;
+
+Objectif : Calculer la position initiale dans la texture pour le premier pixel à dessiner.
+
+Explication : pos est la position verticale dans la texture pour le premier pixel de la ligne verticale du mur.
+
+Calcul :
+draw_start - WIN_HEIGHT / 2 + line_height / 2 centre la ligne verticale du mur par rapport à la hauteur de l'écran.
+En multipliant par step, vous obtenez la position correspondante dans la texture.
+
+---------------
+
+Boucle while (draw_start < draw_end)
+
+Objectif : Dessiner chaque pixel vertical du mur sur l'écran.
+
+Explication : Pour chaque ligne verticale entre draw_start et draw_end, vous :
+
+Incrémentez pos par step : Cela avance dans la texture pour obtenir la couleur du pixel suivant.
+
+Calculez color : Utilisez pos et tex_x pour accéder à la couleur du pixel dans la texture.
+(int)pos & (TEXTURE_SIZE - 1) : Assure que pos reste dans les limites de la texture en utilisant un masque binaire.
+TEXTURE_SIZE * ((int)pos & (TEXTURE_SIZE - 1)) + tex_x : Calcule l'index du pixel dans la texture.
+
+Appliquez un effet d'ombrage : Si le mur est orienté Nord ou Sud, la couleur est assombrie en décalant les bits vers la droite.
+
+Dessinez le pixel : Si color est valide (différent de zéro), dessinez le pixel sur l'écran à la position (draw_start, x).
+Rôle des Variables
+
+step : Détermine combien de pixels de la texture sont parcourus pour chaque pixel dessiné sur l'écran.
+
+pos : Position verticale actuelle dans la texture pour le pixel à dessiner.
+
+color : Couleur du pixel récupérée de la texture.
+
+dir : Direction cardinale du mur, utilisée pour appliquer des effets d'ombrage.
+
+tex_x : Position horizontale dans la texture, calculée précédemment.
