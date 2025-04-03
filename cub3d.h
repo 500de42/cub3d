@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/02 18:52:09 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:46:09 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 #  define SCREEN_HEIGHT 1080
 # endif
 
+
 typedef struct t_data
 {
 	char	**map;
@@ -47,9 +48,11 @@ typedef struct t_data
 	int		planeY;
 	int		*buff_texture[4];
 	int 	*texture_buffer[4]; // Stocke les textures sous forme de tableau 1D
-	void 	*textures[4];      // Pointeurs vers les images MLX
+	void 	*ptr_img[4];      // Pointeurs vers les images MLX
 	char 	*tex_addr[4];      // Adresses mémoire des textures
 	int 	tex_bpp, tex_line_length, tex_endian;
+	void	*window;
+	void	*mlx;
 }			t_data;
 
 typedef struct t_pars

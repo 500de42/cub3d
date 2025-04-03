@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 20:44:40 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/01 20:48:02 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:56:33 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,31 @@ int init_buff_texture(t_data *d)
 	return(0);
 }
 
+int load_textures(t_data *d, t_pars *p)
+{
+	int i;
+	int	width;
+	int	height;
+	char *texture_path[4] = {
+		"textures/wall_north.xpm",
+		"textures/wall_south.xpm",
+		"textures/wall_east.xpm",
+		"textures/wall_west.xpm"
+	};
+	
+	i = 0;
+	while (i < 4)
+	{
+		d->ptr_img[i] = mlx_xpm_file_to_image(d->mlx, (char *)texture_path[i], &width, &height);
+		if (!d->ptr_img[i])
+		{
+			//free tout + exit
+		}
+		d->tex_addr[i] = mlx_get_data_addr(d->ptr_img[i], &d->tex_bpp, &d->tex_line_length, &d->tex_endian);
+		d->texture_buffer[i] = (int *)d->tex_addr[i];
+		i++;
+	}
+}
 
 void	calcul_rayon(t_pars *p, t_data *d)
 {
@@ -34,7 +59,7 @@ void	calcul_rayon(t_pars *p, t_data *d)
 	int		stepY;
 	double	sideX;
 	double	sideY;
-	int		sens_Wall;
+	int		side;
 	int		mapX;
 	int		mapY;
 	int		x;
@@ -115,23 +140,23 @@ void	calcul_rayon(t_pars *p, t_data *d)
 			{
 				sideX += d->deltaX;
 				mapX += stepX;
-				sens_Wall = 0;
+			side = 0;
 			}
 			else
 			{
 				sideY += d->deltaY;
 				mapY += stepY;
-				sens_Wall = 1;
+			side = 1;
 			}
 			if (d->map[mapY][mapX] == '1')
 				break ;
 		}
-		if (sens_Wall == 1)
+		if (side == 1)
 		{
 			distance_wall = sideY - d->deltaY;
 			wall_x = d->posX + distance_wall * d->ray_dirX;
 		}
-		else if (sens_Wall == 0)
+		else if (side == 0)
 		{
 			distance_wall = sideX - d->deltaX;
 			wall_x = d->posY + distance_wall * d->ray_dirY;
@@ -147,7 +172,7 @@ void	calcul_rayon(t_pars *p, t_data *d)
 		if (draw_end > SCREEN_HEIGHT)
 			draw_end = SCREEN_HEIGHT - 1;
 		textureX = (int)(wall_x * TEXTURE_SIZE); // 64 = taille pixel
-		if ((sens_Wall == 0 && d->ray_dirX > 0) || (sens_Wall == 1 && d->ray_dirY < 0))
+		if ((side == 0 && d->ray_dirX > 0) || (side == 1 && d->ray_dirY < 0))
 			textureX = TEXTURE_SIZE - textureX - 1;
 		step = 1.0 * TEXTURE_SIZE / wall_height;
 		pos = (draw_start - SCREEN_HEIGHT / 2 + wall_height / 2) * step;
