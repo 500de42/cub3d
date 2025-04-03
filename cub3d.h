@@ -6,7 +6,7 @@
 /*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/03 16:46:09 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/03 20:58:09 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int			found_the_most_insane_len(char **map);
 
 void		calcul_rayon(t_pars *p, t_data *d);
 int			init_buff_texture(t_data *d);
+int			load_textures(t_data *d, t_pars *p);
+void		put_pixel_to_img(t_data *d, int x, int y, int color, int dir);
 
 /////////////// FREE ///////////////////////////
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:38:04 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/01 17:43:55 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/03 20:59:25 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	main(int ac, char **av)
 {
 	t_pars	*p;
 	t_data	*d;
-
+	void	*mlx;
+	
 	check_(av, ac);
 	p = malloc(sizeof(t_pars));
 	if (!p)
@@ -40,5 +41,9 @@ int	main(int ac, char **av)
 	if (!d)
 		free_parsing(p, "Error\nMalloc t_data");
 	init_data(d, p);
+	mlx = mlx_init();
+	if (init_buff_texture(d) == -1)
+		//free tout
+	load_textures(d, p);
 	calcul_rayon(p, d);
 }

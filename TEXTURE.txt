@@ -1,6 +1,7 @@
 Qu’est-ce que les offsets ?
 
-Les offsets sont des décalages en mémoire pour accéder aux pixels d’une image. En gros, chaque pixel a une position spécifique en mémoire, et l’offset permet de savoir où il se trouve.
+Les offsets sont des décalages en mémoire pour accéder aux pixels d’une image.
+En gros, chaque pixel a une position spécifique en mémoire, et l’offset permet de savoir où il se trouve.
 
 -----------------------
 
@@ -105,3 +106,49 @@ color : Couleur du pixel récupérée de la texture.
 dir : Direction cardinale du mur, utilisée pour appliquer des effets d'ombrage.
 
 tex_x : Position horizontale dans la texture, calculée précédemment.
+
+--------------------------------------------------------------------------------------
+
+Explication de la ligne :
+
+    color = (color >> 1) & 0x7F7F7F;
+
+Cette opération est utilisée pour assombrir la couleur d'un pixel afin de donner un effet d'ombre aux murs Nord et Sud.
+
+Décomposition du calcul :
+
+Décalage binaire vers la droite (>> 1)
+
+color est une valeur RGB stockée sur 3 octets (24 bits).
+
+Décaler color d'un bit vers la droite revient à diviser chaque composante (rouge, vert, bleu) par 2, ce qui réduit la luminosité.
+
+Masque binaire (& 0x7F7F7F)
+
+0x7F7F7F en hexadécimal correspond à 01111111 01111111 01111111 en binaire.
+
+En appliquant un ET bit-à-bit (&), on s'assure que la valeur ne dépasse jamais 127 (0x7F), évitant des erreurs d'affichage.
+
+Exemple de calcul :
+Imaginons que color = 0xFFA07A (RGB = (255, 160, 122), une teinte orange clair).
+
+Étape 1 : Décalage à droite (>> 1)
+
+    Rouge  = 255 >> 1 = 127  (0xFF >> 1 = 0x7F)
+    Vert   = 160 >> 1 = 80   (0xA0 >> 1 = 0x50)
+    Bleu   = 122 >> 1 = 61   (0x7A >> 1 = 0x3D)
+
+On obtient donc (127, 80, 61) = 0x7F503D.
+
+Étape 2 : Masque avec 0x7F7F7F
+
+0x7F503D  &  0x7F7F7F  =  0x7F503D (aucun changement ici car toutes les valeurs restent ≤ 127)
+La couleur assombrie reste (127, 80, 61) ≈ brun foncé.
+
+Résumé :
+
+>> 1 réduit la luminosité en divisant chaque composante RGB par 2.
+
+& 0x7F7F7F évite les dépassements de valeur pour assurer un affichage correct.
+
+Cette technique ajoute un effet d'ombre réaliste aux textures des murs Nord et Sud.

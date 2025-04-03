@@ -6,7 +6,7 @@
 /*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 20:44:40 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/03 16:56:33 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/03 20:59:09 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ int load_textures(t_data *d, t_pars *p)
 	}
 }
 
+void put_pixel_to_img(t_data *d, int x, int y, int color, int dir)
+{
+	if (x < 0 || x >= SCREEN_WIDTH || y < 0 || y >= SCREEN_HEIGHT)
+		return ;
+	*(int *)(d->tex_addr[dir] + (y * d->tex_line_length + x * (d->tex_bpp / 8))) = color;
+}
+
 void	calcul_rayon(t_pars *p, t_data *d)
 {
 	int		stepX;
@@ -68,7 +75,8 @@ void	calcul_rayon(t_pars *p, t_data *d)
 	int		draw_start;
 	int		draw_end;
 	double	wall_x;
-	int		textureX;
+	int		tex_x;
+	int 	tex_y;
 	int		color;
 	double 	step;
 	double	pos;
@@ -140,13 +148,13 @@ void	calcul_rayon(t_pars *p, t_data *d)
 			{
 				sideX += d->deltaX;
 				mapX += stepX;
-			side = 0;
+				side = 0;
 			}
 			else
 			{
 				sideY += d->deltaY;
 				mapY += stepY;
-			side = 1;
+				side = 1;
 			}
 			if (d->map[mapY][mapX] == '1')
 				break ;
@@ -155,11 +163,19 @@ void	calcul_rayon(t_pars *p, t_data *d)
 		{
 			distance_wall = sideY - d->deltaY;
 			wall_x = d->posX + distance_wall * d->ray_dirX;
+			if (d->ray_dirX > 0)
+				dir = 3; //est
+			else
+				dir = 2;//ouest
 		}
 		else if (side == 0)
 		{
 			distance_wall = sideX - d->deltaX;
 			wall_x = d->posY + distance_wall * d->ray_dirY;
+			if (d->ray_dirY > 0)
+				dir = 1;//sud
+			else
+				dir = 0;//nord
 		}
 		wall_x -= floor(wall_x);
 		distance_wall = distance_wall / fabs((d->ray_dirX * d->dirX)
@@ -171,20 +187,22 @@ void	calcul_rayon(t_pars *p, t_data *d)
 			draw_start = 0;
 		if (draw_end > SCREEN_HEIGHT)
 			draw_end = SCREEN_HEIGHT - 1;
-		textureX = (int)(wall_x * TEXTURE_SIZE); // 64 = taille pixel
+		tex_x = (int)(wall_x * TEXTURE_SIZE); // 64 = taille pixel
 		if ((side == 0 && d->ray_dirX > 0) || (side == 1 && d->ray_dirY < 0))
-			textureX = TEXTURE_SIZE - textureX - 1;
+			tex_x = TEXTURE_SIZE - tex_x - 1;
 		step = 1.0 * TEXTURE_SIZE / wall_height;
 		pos = (draw_start - SCREEN_HEIGHT / 2 + wall_height / 2) * step;
-		if (init_buff_texture(d) == -1)
-			//free tout
 		while (draw_start < draw_end)
 		{
+			tex_y = (int)pos & (TEXTURE_SIZE - 1);
+			color = (d->buff_texture)[dir][TEXTURE_SIZE * tex_y + tex_x];
+			if (dir == 0 || dir == 1)
+				color = (color >> 1) & 0x7F7F7F;
+			put_pixel_to_img(d, x, draw_start, color, dir);
 			pos += step;
-			color = (d->buff_texture)[dir][TEXTURE_SIZE * ((int)pos & (TEXTURE_SIZE - 1)) + textureX];
 			draw_start++;
 		}
 	}
 }
 
-//faire une fonction qui actualise la direction du joueur, a mettre dans la variable dir
+//faire une fonction qui actualise la direction du joueur
