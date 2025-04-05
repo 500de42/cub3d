@@ -6,7 +6,7 @@
 /*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/03 20:58:09 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/05 02:29:55 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 
 typedef struct t_data
 {
-	char	**map;
 	double	cam;
 	double	ray_dirX;
 	double	ray_dirY;
@@ -46,13 +45,15 @@ typedef struct t_data
 	int		x_player;
 	int		planeX;
 	int		planeY;
-	int		*buff_texture[4];
+	int		ceiling_color;
+	int		floor_color;
 	int 	*texture_buffer[4]; // Stocke les textures sous forme de tableau 1D
 	void 	*ptr_img[4];      // Pointeurs vers les images MLX
 	char 	*tex_addr[4];      // Adresses mémoire des textures
 	int 	tex_bpp, tex_line_length, tex_endian;
-	void	*window;
+	void	*mlx_window;
 	void	*mlx;
+	int		tex_buff;
 }			t_data;
 
 typedef struct t_pars
@@ -71,6 +72,8 @@ typedef struct t_pars
 	int		y_player;
 	int		x_player;
 	char	**map_test;
+	int		floor_rgb[3];
+	int		ceiling_rgb[3];
 }			t_pars;
 
 //////////////// PARSING //////////////////////
@@ -86,19 +89,24 @@ int			found_the_most_insane_len(char **map);
 
 //////////////// RAYCASTING ////////////////////
 
-void		calcul_rayon(t_pars *p, t_data *d);
+void		Raycasting(t_pars *p, t_data *d);
 int			init_buff_texture(t_data *d);
-int			load_textures(t_data *d, t_pars *p);
+void		load_textures(t_data *d, t_pars *p);
 void		put_pixel_to_img(t_data *d, int x, int y, int color, int dir);
+int			rbg_in_int(int tab[3]);
 
 /////////////// FREE ///////////////////////////
 
 void		free_parsing(t_pars *d, char *s);
+void		destroy_texture(t_data *data);
+void		free_all(t_pars *p, t_data *d, char *s);
 
 ///////////////// UTILS/////////////////////////
 
 void		init_data(t_data *d, t_pars *p);
 void		init_pars(t_pars *p);
 double		cdir(int degres);
+int			close_window(t_data *d, t_pars *p);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 20:44:40 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/03 20:59:09 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/05 02:29:41 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,41 @@
 
 #define TEXTURE_SIZE 64
 
-int init_buff_texture(t_data *d)
-{
-	int i = 0;
+// int init_buff_texture(t_data *d)
+// {
+// 	int i = 0;
 
-	while (i++ < 4)
-	{
-		d->buff_texture[i] = malloc(TEXTURE_SIZE * TEXTURE_SIZE * (sizeof (int)));
-		if (!d->buff_texture[i])
-			return (-1);
-	}
-	return(0);
-}
+// 	while (i++ < 4)
+// 	{
+// 		d->texture_buffer[i] = malloc(TEXTURE_SIZE * TEXTURE_SIZE * (sizeof (int)));
+// 		if (!d->texture_buffer[i])
+// 			return (-1);
+// 	}
+// 	return(0);
+// }
 
-int load_textures(t_data *d, t_pars *p)
+void load_textures(t_data *d, t_pars *p)
 {
 	int i;
 	int	width;
 	int	height;
 	char *texture_path[4] = {
-		"textures/wall_north.xpm",
-		"textures/wall_south.xpm",
-		"textures/wall_east.xpm",
-		"textures/wall_west.xpm"
+		"img/img",
+		"img/img",
+		"img/img",
+		"img/img"
 	};
-	
 	i = 0;
 	while (i < 4)
 	{
 		d->ptr_img[i] = mlx_xpm_file_to_image(d->mlx, (char *)texture_path[i], &width, &height);
 		if (!d->ptr_img[i])
-		{
-			//free tout + exit
-		}
+			free_all(p, d, "Error\nLoad texture\n");
 		d->tex_addr[i] = mlx_get_data_addr(d->ptr_img[i], &d->tex_bpp, &d->tex_line_length, &d->tex_endian);
 		d->texture_buffer[i] = (int *)d->tex_addr[i];
 		i++;
 	}
+	d->tex_buff = 1;
 }
 
 void put_pixel_to_img(t_data *d, int x, int y, int color, int dir)
@@ -60,7 +58,7 @@ void put_pixel_to_img(t_data *d, int x, int y, int color, int dir)
 	*(int *)(d->tex_addr[dir] + (y * d->tex_line_length + x * (d->tex_bpp / 8))) = color;
 }
 
-void	calcul_rayon(t_pars *p, t_data *d)
+void	Raycasting(t_pars *p, t_data *d)
 {
 	int		stepX;
 	int		stepY;
@@ -81,7 +79,8 @@ void	calcul_rayon(t_pars *p, t_data *d)
 	double 	step;
 	double	pos;
 	int		dir;
-
+	int		dw;
+	
 	x = 0;
 	d->posX = d->x_player + 0.5;
 	d->posY = d->y_player + 0.5;
@@ -156,7 +155,7 @@ void	calcul_rayon(t_pars *p, t_data *d)
 				mapY += stepY;
 				side = 1;
 			}
-			if (d->map[mapY][mapX] == '1')
+			if (p->map_test[mapY][mapX] == '1')
 				break ;
 		}
 		if (side == 1)
@@ -192,15 +191,23 @@ void	calcul_rayon(t_pars *p, t_data *d)
 			tex_x = TEXTURE_SIZE - tex_x - 1;
 		step = 1.0 * TEXTURE_SIZE / wall_height;
 		pos = (draw_start - SCREEN_HEIGHT / 2 + wall_height / 2) * step;
-		while (draw_start < draw_end)
+		dw = 0;
+		while (dw < SCREEN_HEIGHT)
 		{
-			tex_y = (int)pos & (TEXTURE_SIZE - 1);
-			color = (d->buff_texture)[dir][TEXTURE_SIZE * tex_y + tex_x];
-			if (dir == 0 || dir == 1)
-				color = (color >> 1) & 0x7F7F7F;
-			put_pixel_to_img(d, x, draw_start, color, dir);
-			pos += step;
-			draw_start++;
+			if (dw < draw_start)
+				put_pixel_to_img(d, x, dw, d->ceiling_color, 0);
+			else if (dw >= draw_end)
+				put_pixel_to_img(d, x, dw, d->floor_color, 0);
+			else
+			{
+				tex_y = (int)pos & (TEXTURE_SIZE - 1);
+				pos += step;
+				color = d->texture_buffer[dir][TEXTURE_SIZE * tex_y + tex_x];
+				if (dir == 0 || dir == 1)
+					color = (color >> 1) & 0x7F7F7F;
+				put_pixel_to_img(d, x, dw, color, dir);
+			}
+			dw++;
 		}
 	}
 }

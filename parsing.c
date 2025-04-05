@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:27:57 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/25 16:45:40 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/04 20:38:12 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,13 +152,16 @@ void	check_rgb(t_pars *d, int *y, int *x)
 	int		j;
 	int		k;
 	char	*nb;
-	int virg = 0;
+	int 	virg;
+	char	c;
 
+	virg = 0;
 	if (d->map_test[*y][*x] != 'C' && d->map_test[*y][*x] != 'F')
 	{
 		printf("\n%c\n", d->map_test[*y][*x]);
 		free_parsing(d, "error\nBad character\n");
 	}
+	c = d->map_test[*y][*x];
 	if (d->map_test[*y][(*x) + 1] != ' ')
 		free_parsing(d, "error\nexepted format <F number,number,number>\n");
 	if (d->map_test[*y][*x] == 'F')
@@ -221,6 +224,18 @@ void	check_rgb(t_pars *d, int *y, int *x)
 		printf("%d %d %d\n", nb_rgb[0], nb_rgb[1], nb_rgb[2]);
 		free(d);
 		exit(1);
+	}
+	if (c == 'F')
+	{
+		d->floor_rgb[0] = ft_atoll(tab[0]);
+		d->floor_rgb[1] = ft_atoll(tab[1]);
+		d->floor_rgb[2] = ft_atoll(tab[2]);
+	}
+	else if (c == 'C')
+	{
+		d->ceiling_rgb[0] = ft_atoll(tab[0]);
+		d->ceiling_rgb[1] = ft_atoll(tab[1]);
+		d->ceiling_rgb[2] = ft_atoll(tab[2]);
 	}
 	print_array(tab);
 	ft_free_array(tab);

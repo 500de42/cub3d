@@ -152,3 +152,65 @@ Résumé :
 & 0x7F7F7F évite les dépassements de valeur pour assurer un affichage correct.
 
 Cette technique ajoute un effet d'ombre réaliste aux textures des murs Nord et Sud.
+
+------------------------------------------------------------------------------------
+
+🎨 Calcul RGB → INT
+
+    int r = 255;
+    int g = 100;
+    int b = 50;
+    int color = (r << 16) | (g << 8) | b;
+
+🧠 Explication :
+
+    (r << 16) décale le rouge de 16 bits à gauche → 0xFF0000
+
+    (g << 8) décale le vert de 8 bits → 0x006400
+
+    b reste à droite → 0x000032
+
+🧮 Résultat :
+
+    0xFF0000 (rouge)
+    + 0x006400 (vert)
+    + 0x000032 (bleu)
+    = 0xFF6432
+
+Donc color = 0xFF6432 ⇒ couleur RGB combinée en un int.
+
+------------------------------------
+
+Pourquoi décaler les bits ?
+En informatique, les couleurs sont souvent stockées sur 24 bits, avec 8 bits pour chaque composant (rouge, vert, bleu). Chaque composant de couleur est stocké dans un octet (un byte, soit 8 bits).
+
+Le rouge occupe les 8 bits les plus à gauche (bit 16 à 23).
+
+Le vert occupe les 8 bits du milieu (bit 8 à 15).
+
+Le bleu occupe les 8 bits les plus à droite (bit 0 à 7).
+
+Décalage de bits :
+Rouge : On décale les bits de la valeur rouge de 16 positions à gauche (r << 16). Cela permet de placer la valeur rouge dans les bits 16 à 23.
+
+Vert : De même, on décale la valeur verte de 8 positions à gauche (g << 8), pour qu'elle se place dans les bits 8 à 15.
+
+Bleu : Le bleu reste tel quel sans décalage (juste b), car il est déjà dans les bits 0 à 7.
+
+Exemple pratique :
+Supposons une couleur RGB r = 255, g = 100, b = 50.
+
+    r << 16 décale 255 à gauche de 16 bits → 0xFF0000 (rouge)
+
+    g << 8 décale 100 à gauche de 8 bits → 0x006400 (vert)
+
+    b reste comme 50 → 0x000032 (bleu)
+
+Ensuite, avec l'opération "OU" bit-à-bit (|), on combine ces valeurs en une seule valeur entière :
+
+    color = (r << 16) | (g << 8) | b
+
+Cela nous donne la couleur complète en un seul entier : 0xFF6432 (ou 16711954 en décimal).
+
+En résumé :
+Le décalage des bits permet de positionner les valeurs RGB aux bons endroits dans l'entier (32 bits) afin qu'elles puissent être correctement interprétées pour l'affichage des couleurs.

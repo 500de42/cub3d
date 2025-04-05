@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 18:15:56 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/22 21:27:44 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/05 01:54:10 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,57 @@ char	**copy_map(t_pars *data)
 double cdir(int degres)
 {
 	return ((degres * M_PI) / 180);
+}
+
+int rbg_in_int(int tab[3])
+{
+	return((tab[0] << 16) | (tab[1] << 8) | tab[2]);
+}
+
+void	destroy_texture(t_data *data)
+{
+	if (data->ptr_img[0])
+	{
+		mlx_destroy_image(data->mlx, data->ptr_img[0]);
+		data->ptr_img[0] = NULL;
+	}
+	if (data->ptr_img[1])
+	{
+		mlx_destroy_image(data->mlx, data->ptr_img[1]);
+		data->ptr_img[1] = NULL;
+	}
+	if (data->ptr_img[2])
+	{
+		mlx_destroy_image(data->mlx, data->ptr_img[2]);
+		data->ptr_img[2] = NULL;
+	}
+	if (data->ptr_img[1])
+	{
+		mlx_destroy_image(data->mlx, data->ptr_img[1]);
+		data->ptr_img[1] = NULL;
+	}
+}
+
+void	free_all(t_pars *p, t_data *d, char *s)
+{
+	ft_putstr_fd(s, 2);
+	ft_free_array(p->map_test);
+	free(p);
+	destroy_texture(d);
+	mlx_destroy_display(d->mlx);
+	free(d->mlx);
+	free(d);
+	exit(1);
+
+}
+
+int	close_window(t_data *d, t_pars *p)
+{
+	ft_free_array(p->map_test);
+	destroy_texture(d);
+	mlx_destroy_window(d->mlx, d->mlx_window);
+	mlx_destroy_display(d->mlx);
+	free(d->mlx);
+	free(d);
+	exit(0);
 }

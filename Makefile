@@ -1,29 +1,43 @@
 NAME = cub3D
-SRC  = main.c parsing.c utils.c sources/init.c sources/Raycasting.c
+
+SRC = main.c parsing.c utils.c sources/init.c sources/Raycasting.c
 OBJ = $(SRC:.c=.o)
+
 CFLAGS = -Wall -Wextra -Werror -fPIE -g3
+INCLUDES = -Ilibft -I./minilibx-linux
+
 LIBFTDIR = libft/
 LIBFT = $(LIBFTDIR)libft.a
+
+MLX_DIR = minilibx-linux
+MLX_LIB = $(MLX_DIR)/libmlx.a
+
+LDFLAGS = -L$(LIBFTDIR) -L$(MLX_DIR)
+LDLIBS = -lmlx -lXext -lX11 -lGL -lm
 
 .PHONY: all clean fclean re
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ)
-	gcc $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+$(NAME): $(LIBFT) $(MLX_LIB) $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LDFLAGS) $(LDLIBS)
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFTDIR)
 
+$(MLX_LIB):
+	$(MAKE) -C $(MLX_DIR)
+
 %.o: %.c
-	gcc $(CFLAGS) -c $< -o $@ -I./
+	$(CC) $(CFLAGS) -I$(LIBFTDIR) -I$(MLX_DIR) -c $< -o $@
 
 clean:
-	rm -rf $(OBJ)
+	rm -f $(OBJ)
 	$(MAKE) -C $(LIBFTDIR) clean
+	$(MAKE) -C $(MLX_DIR) clean
 
 fclean: clean
-	rm -rf $(NAME)
+	rm -f $(NAME)
 	$(MAKE) -C $(LIBFTDIR) fclean
 
 re: fclean all
