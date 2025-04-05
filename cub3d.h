@@ -6,7 +6,7 @@
 /*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/05 02:29:55 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/05 16:36:13 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ typedef struct t_data
 	int		ceiling_color;
 	int		floor_color;
 	int 	*texture_buffer[4]; // Stocke les textures sous forme de tableau 1D
-	void 	*ptr_img[4];      // Pointeurs vers les images MLX
-	char 	*tex_addr[4];      // Adresses mémoire des textures
+	void 	*tex_ptr[4];      // Pointeurs vers les textures MLX
+	char 	*tex_addr[4];    // Adresses mémoire des textures
+	void	*img_ptr;	// Pointeur vers les img
+	void	*img_addr;	// pointeur vers l adresse de l img
 	int 	tex_bpp, tex_line_length, tex_endian;
 	void	*mlx_window;
 	void	*mlx;
@@ -72,6 +74,7 @@ typedef struct t_pars
 	int		y_player;
 	int		x_player;
 	char	**map_test;
+	char	**map;
 	int		floor_rgb[3];
 	int		ceiling_rgb[3];
 }			t_pars;
@@ -92,7 +95,7 @@ int			found_the_most_insane_len(char **map);
 void		Raycasting(t_pars *p, t_data *d);
 int			init_buff_texture(t_data *d);
 void		load_textures(t_data *d, t_pars *p);
-void		put_pixel_to_img(t_data *d, int x, int y, int color, int dir);
+void		put_pixel_to_img(t_data *d, int x, int y, int color);
 int			rbg_in_int(int tab[3]);
 
 /////////////// FREE ///////////////////////////

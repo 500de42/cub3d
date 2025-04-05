@@ -6,7 +6,7 @@
 /*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:27:57 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/04 20:38:12 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/05 20:20:11 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,6 @@ void	check_rgb(t_pars *d, int *y, int *x)
 		d->ceiling_rgb[1] = ft_atoll(tab[1]);
 		d->ceiling_rgb[2] = ft_atoll(tab[2]);
 	}
-	print_array(tab);
 	ft_free_array(tab);
 }
 
@@ -324,11 +323,10 @@ void	last_check(t_pars *d)
 	if (ft_tablen(d->map_test) <= 7)
 		free_parsing(d, "error\nEmpty map\n");
 	map = &d->map_test[d->save_y + 1];
-	print_array(map);
 	map = parse_map(map);
 	if (!map)
 		free_parsing(d, "error\nEmpty map\n");
-	print_array(map);
+	d->map = parse_map(map);
 	map_len_y = ft_tablen(map);
 	y = -1;
 	check_first_line(map[0], d);

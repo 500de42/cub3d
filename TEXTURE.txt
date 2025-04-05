@@ -214,3 +214,42 @@ Cela nous donne la couleur complète en un seul entier : 0xFF6432 (ou 16711954 e
 
 En résumé :
 Le décalage des bits permet de positionner les valeurs RGB aux bons endroits dans l'entier (32 bits) afin qu'elles puissent être correctement interprétées pour l'affichage des couleurs.
+
+------------------------------------------------------------------------------------------------------------------
+
+explication put_pixel_to_img
+
+ChatGPT a dit :
+Bien sûr ! Voici une explication simple, claire et courte de la fonction put_pixel_to_img 👇
+
+🧱 Objectif de put_pixel_to_img
+👉 Elle sert à écrire un pixel de couleur dans ton image MLX (l’image que tu affiches à l’écran).
+
+📦 Fonction complète :
+
+void put_pixel_to_img(t_data *d, int x, int y, int color)
+{
+	if (x < 0 || x >= SCREEN_WIDTH || y < 0 || y >= SCREEN_HEIGHT)
+		return;
+
+	*(int *)(d->img_addr + (y * d->line_length + x * (d->bpp / 8))) = color;
+}
+🧠 Décryptage ligne par ligne :
+1. ✅ Vérifie que x et y sont dans la fenêtre :
+
+if (x < 0 || x >= SCREEN_WIDTH || y < 0 || y >= SCREEN_HEIGHT)
+	return;
+Pour ne pas dessiner en dehors de l’image et planter.
+
+2. 🧮 Calcule l’adresse mémoire du pixel à modifier :
+
+y * d->line_length    → combien d'octets descendre pour aller à la ligne y  
+x * (d->bpp / 8)      → combien d'octets avancer pour aller à la colonne x
+Par exemple, si on est à la ligne 5, colonne 3, il faut sauter 5 lignes et avancer de 3 pixels.
+
+3. 🎨 Écrit la couleur à cette adresse :
+
+*(int *)(...) = color;
+On caste en (int *) pour écrire une couleur 4 octets (int RGB).
+
+🖼️ C’est comme dessiner un pixel [x, y] avec une couleur int color sur une image en mémoire.

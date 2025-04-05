@@ -6,7 +6,7 @@
 /*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 18:15:56 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/05 01:54:10 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/05 13:33:03 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	free_all(t_pars *p, t_data *d, char *s)
 	ft_putstr_fd(s, 2);
 	ft_free_array(p->map_test);
 	free(p);
-	destroy_texture(d);
+	// destroy_texture(d);
 	mlx_destroy_display(d->mlx);
 	free(d->mlx);
 	free(d);

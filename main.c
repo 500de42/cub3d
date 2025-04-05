@@ -6,7 +6,7 @@
 /*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:38:04 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/05 02:30:10 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/05 20:17:00 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,11 @@ int	main(int ac, char **av)
 	d->mlx = mlx_init();
 	if (!d->mlx)
 		free_all(p, d, "Error\nInit mlx\n");
-	// if (init_buff_texture(d) == -1)
-	// 	free_all(p, d, "Error\nInit buffer textures\n");
-	load_textures(d, p);
 	d->mlx_window = mlx_new_window(d->mlx, SCREEN_WIDTH,
 		 SCREEN_HEIGHT, "Cub3D");
 	if (!d->mlx_window)
 		free_all(p, d, "Error\nInit mlx_window\n");
+	load_textures(d, p);
 	Raycasting(p, d);
 	mlx_hook(d->mlx_window, 17, 0, &close_window, d);
 	mlx_loop(d->mlx);
