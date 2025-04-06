@@ -6,7 +6,7 @@
 /*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:38:04 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/05 20:17:00 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/06 11:11:55 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ void	init_pars(t_pars *p)
 	p->N = 0;
 	p->C = 0;
 	p->F = 0;
+}
+
+void	*game_loop(t_data *d)
+{
+
+	Raycasting(d->p, d);
+	mlx_put_image_to_window(d->mlx, d->mlx_window, d->img_ptr, 0, 0);
 }
 
 int	main(int ac, char **av)
@@ -47,8 +54,13 @@ int	main(int ac, char **av)
 		 SCREEN_HEIGHT, "Cub3D");
 	if (!d->mlx_window)
 		free_all(p, d, "Error\nInit mlx_window\n");
+	d->p = p;
 	load_textures(d, p);
 	Raycasting(p, d);
 	mlx_hook(d->mlx_window, 17, 0, &close_window, d);
+	mlx_hook(d->mlx_window, KeyPress, KeyPressMask, key_press_handler, d);
+    mlx_hook(d->mlx_window, KeyRelease, KeyReleaseMask, key_release_handler, d);
+	mlx_hook(d->mlx_window, MotionNotify, PointerMotionMask, mouse_handler, d);
+	mlx_loop_hook(d->mlx, game_loop, d);
 	mlx_loop(d->mlx);
 }

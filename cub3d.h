@@ -6,7 +6,7 @@
 /*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/05 16:36:13 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/06 11:12:27 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 
 # include "libft/libft.h"
 # include "minilibx-linux/mlx.h"
+# include "minilibx-linux/mlx_int.h"
 # include <math.h>
 # include <stdio.h>
+#include <stdbool.h>
 
 # ifndef M_PI
 #  define M_PI 3.14159265
@@ -27,7 +29,10 @@
 # ifndef SCREEN_HEIGHT
 #  define SCREEN_HEIGHT 1080
 # endif
-
+# ifndef MSPEED
+#	define MSPEED 0.0150
+# endif
+# define DIST_EDGE_MOUSE_WRAP 20
 
 typedef struct t_data
 {
@@ -56,6 +61,15 @@ typedef struct t_data
 	void	*mlx_window;
 	void	*mlx;
 	int		tex_buff;
+	t_pars	*p;
+	
+	float angle;
+	bool key_up; 
+    bool key_down; 
+    bool key_right; 
+    bool key_left;
+    bool left_rotate; 
+    bool right_rotate;
 }			t_data;
 
 typedef struct t_pars
@@ -110,6 +124,16 @@ void		init_data(t_data *d, t_pars *p);
 void		init_pars(t_pars *p);
 double		cdir(int degres);
 int			close_window(t_data *d, t_pars *p);
+void		*game_loop(t_data *d);
 
+/////////////// MOOVE PLAYER //////////////////
 
+void 		init_movement(t_data *data);
+int 		key_press_handler(t_data *data, int key);
+int 		key_release_handler(t_data *data , int key);
+void 		rotate_player(t_data *data);
+void		get_mouse_position(t_data *data, int x, int y);
+int 		mouse_handler(t_data *data, int x, int y);
+void		move_player(t_data *data);
+bool 		check_position(t_pars *p, double x, double y);
 #endif
