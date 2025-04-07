@@ -6,7 +6,7 @@
 /*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 18:15:56 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/05 13:33:03 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/07 12:23:37 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,26 +70,14 @@ int rbg_in_int(int tab[3])
 
 void	destroy_texture(t_data *data)
 {
-	if (data->ptr_img[0])
-	{
-		mlx_destroy_image(data->mlx, data->ptr_img[0]);
-		data->ptr_img[0] = NULL;
-	}
-	if (data->ptr_img[1])
-	{
-		mlx_destroy_image(data->mlx, data->ptr_img[1]);
-		data->ptr_img[1] = NULL;
-	}
-	if (data->ptr_img[2])
-	{
-		mlx_destroy_image(data->mlx, data->ptr_img[2]);
-		data->ptr_img[2] = NULL;
-	}
-	if (data->ptr_img[1])
-	{
-		mlx_destroy_image(data->mlx, data->ptr_img[1]);
-		data->ptr_img[1] = NULL;
-	}
+	if (data->tex_ptr[0])
+		mlx_destroy_image(data->mlx, data->tex_ptr[0]);
+	if (data->tex_ptr[1])
+		mlx_destroy_image(data->mlx, data->tex_ptr[1]);
+	if (data->tex_ptr[2])
+		mlx_destroy_image(data->mlx, data->tex_ptr[2]);
+	if (data->tex_ptr[3])
+		mlx_destroy_image(data->mlx, data->tex_ptr[3]);
 }
 
 void	free_all(t_pars *p, t_data *d, char *s)
@@ -97,7 +85,7 @@ void	free_all(t_pars *p, t_data *d, char *s)
 	ft_putstr_fd(s, 2);
 	ft_free_array(p->map_test);
 	free(p);
-	// destroy_texture(d);
+	//destroy_texture(d);
 	mlx_destroy_display(d->mlx);
 	free(d->mlx);
 	free(d);
@@ -112,6 +100,7 @@ int	close_window(t_data *d, t_pars *p)
 	mlx_destroy_window(d->mlx, d->mlx_window);
 	mlx_destroy_display(d->mlx);
 	free(d->mlx);
+	free(p);
 	free(d);
 	exit(0);
 }

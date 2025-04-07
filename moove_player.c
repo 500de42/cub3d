@@ -1,18 +1,5 @@
 #include "cub3d.h"
 
-void init_movement(t_data *data)
-{
-    data -> angle = M_PI / 2;
-    data -> posX = SCREEN_WIDTH / 2;
-    data -> posY = SCREEN_HEIGHT / 2;
-    data -> left_rotate = false;
-    data -> right_rotate = false;
-    data -> key_down = false;
-    data -> key_left = false;
-    data -> key_right = false;
-    data -> key_up = false;
-}
-
 int key_press_handler(t_data *data, int key)
 {
     if (key == XK_Escape)

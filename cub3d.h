@@ -6,7 +6,7 @@
 /*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/06 11:12:27 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/07 12:51:14 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,27 @@
 #	define MSPEED 0.0150
 # endif
 # define DIST_EDGE_MOUSE_WRAP 20
+
+typedef struct t_pars
+{
+	int		fd;
+	int		NO;
+	int		SO;
+	int		WE;
+	int		EA;
+	int		N;
+	int		F;
+	int		C;
+	char	d;
+	int		len;
+	int		save_y;
+	int		y_player;
+	int		x_player;
+	char	**map_test;
+	char	**map;
+	int		floor_rgb[3];
+	int		ceiling_rgb[3];
+}			t_pars;
 
 typedef struct t_data
 {
@@ -72,26 +93,7 @@ typedef struct t_data
     bool right_rotate;
 }			t_data;
 
-typedef struct t_pars
-{
-	int		fd;
-	int		NO;
-	int		SO;
-	int		WE;
-	int		EA;
-	int		N;
-	int		F;
-	int		C;
-	char	d;
-	int		len;
-	int		save_y;
-	int		y_player;
-	int		x_player;
-	char	**map_test;
-	char	**map;
-	int		floor_rgb[3];
-	int		ceiling_rgb[3];
-}			t_pars;
+
 
 //////////////// PARSING //////////////////////
 
@@ -124,7 +126,8 @@ void		init_data(t_data *d, t_pars *p);
 void		init_pars(t_pars *p);
 double		cdir(int degres);
 int			close_window(t_data *d, t_pars *p);
-void		*game_loop(t_data *d);
+int			game_loop(t_data *d);
+void		init_dir_player(t_data *d, t_pars *p);
 
 /////////////// MOOVE PLAYER //////////////////
 

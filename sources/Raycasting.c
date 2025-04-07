@@ -6,26 +6,13 @@
 /*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 20:44:40 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/05 21:11:54 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/07 12:51:28 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
 #define TEXTURE_SIZE 64
-
-// int init_buff_texture(t_data *d)
-// {
-// 	int i = 0;
-
-// 	while (i++ < 4)
-// 	{
-// 		d->texture_buffer[i] = malloc(TEXTURE_SIZE * TEXTURE_SIZE * (sizeof (int)));
-// 		if (!d->texture_buffer[i])
-// 			return (-1);
-// 	}
-// 	return(0);
-// }
 
 void load_textures(t_data *d, t_pars *p)
 {
@@ -41,7 +28,6 @@ void load_textures(t_data *d, t_pars *p)
 	i = 0;
 	while (i < 4)
 	{
-		printf("Loading texture %d: %s\n", i, texture_path[i]);
 		d->tex_ptr[i] = mlx_xpm_file_to_image(d->mlx, texture_path[i], &width, &height);
 		if (!d->tex_ptr[i])
 			free_all(p, d, "Error\nLoad texture\n");
@@ -70,8 +56,6 @@ void	Raycasting(t_pars *p, t_data *d)
 	int		side;
 	int		mapX;
 	int		mapY;
-	int		pX;
-	int		pY;
 	int		x;
 	double	distance_wall;
 	int		wall_height;
@@ -87,40 +71,8 @@ void	Raycasting(t_pars *p, t_data *d)
 	int		dw;
 	
 	x = 0;
-	d->posX = d->x_player + 0.5;
-	d->posY = d->y_player + 0.5;
-	mapX = d->x_player;
-	mapY = d->y_player;
-	if (p->d == 'N')
-	{
-		d->dirX = 0;
-		d->dirY = -1;
-		d->planeX = 0.66;
-		d->planeY = 0;
-	}
-	else if (p->d == 'S')
-	{
-		d->dirX = 0;
-		d->dirY = 1;
-		d->planeX = 0.66;
-		d->planeY = 0;
-	}
-	else if (p->d == 'E')
-	{
-		d->dirX = 1;
-		d->dirY = 0;
-		d->planeX = 0;
-		d->planeY = 0.66;
-	}
-	else if (p->d == 'W')
-	{
-		d->dirX = -1;
-		d->dirY = 0;
-		d->planeX = 0;
-		d->planeY = 0.66;
-	}
-	d->img_ptr = mlx_new_image(d->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	d->img_addr = mlx_get_data_addr(d->img_ptr, &d->tex_bpp, &d->tex_line_length, &d->tex_endian);
+	mapX = (int)d->posX;
+	mapY = (int)d->posY;
 	while (x++ < SCREEN_WIDTH)
 	{
 		d->camX = 2 * x / (double)SCREEN_WIDTH - 1;

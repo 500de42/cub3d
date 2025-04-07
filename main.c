@@ -6,7 +6,7 @@
 /*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:38:04 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/06 11:11:55 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/07 12:50:34 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	init_pars(t_pars *p)
 	p->F = 0;
 }
 
-void	*game_loop(t_data *d)
+int	game_loop(t_data *d)
 {
-
+	move_player(d);
 	Raycasting(d->p, d);
-	mlx_put_image_to_window(d->mlx, d->mlx_window, d->img_ptr, 0, 0);
+	return (0);
 }
 
 int	main(int ac, char **av)
@@ -55,6 +55,8 @@ int	main(int ac, char **av)
 	if (!d->mlx_window)
 		free_all(p, d, "Error\nInit mlx_window\n");
 	d->p = p;
+	d->img_ptr = mlx_new_image(d->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	d->img_addr = mlx_get_data_addr(d->img_ptr, &d->tex_bpp, &d->tex_line_length, &d->tex_endian);
 	load_textures(d, p);
 	Raycasting(p, d);
 	mlx_hook(d->mlx_window, 17, 0, &close_window, d);
