@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/07 12:51:14 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/08 20:37:31 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <math.h>
 # include <stdio.h>
 #include <stdbool.h>
+#include <unistd.h>
 
 # ifndef M_PI
 #  define M_PI 3.14159265
@@ -69,8 +70,8 @@ typedef struct t_data
 	double	dirY;
 	int		y_player;
 	int		x_player;
-	int		planeX;
-	int		planeY;
+	double		planeX;
+	double		planeY;
 	int		ceiling_color;
 	int		floor_color;
 	int 	*texture_buffer[4]; // Stocke les textures sous forme de tableau 1D
@@ -138,5 +139,6 @@ void 		rotate_player(t_data *data);
 void		get_mouse_position(t_data *data, int x, int y);
 int 		mouse_handler(t_data *data, int x, int y);
 void		move_player(t_data *data);
-bool 		check_position(t_pars *p, double x, double y);
+//bool 		check_position(t_pars *p, double x, double y);
+
 #endif

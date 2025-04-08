@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Raycasting.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/24 20:44:40 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/08 20:55:05 by kcharbon         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../cub3d.h"
 
 #define TEXTURE_SIZE 64
@@ -73,15 +61,16 @@ void	Raycasting(t_pars *p, t_data *d)
 	int		dw;
 
 	x = 0;
-	while (x++ < SCREEN_WIDTH)
+	// print_array(p->map);
+	while (x < SCREEN_WIDTH)
 	{
-		mapX = (int)d->posX;
-		mapY = (int)d->posY;
+		mapX = (int)p->x_player;
+		mapY = (int)d->y_player;
 		d->camX = 2 * x / (double)SCREEN_WIDTH - 1;
 		d->ray_dirX = d->dirX + d->planeX * d->camX;
 		d->ray_dirY = d->dirY + d->planeY * d->camX;
-		d->deltaX = fabs(1 / d->ray_dirX);
-		d->deltaY = fabs(1 / d->ray_dirY);
+		d->deltaX = fabs(1 / d->ray_dirX); // la distance pour parcourir une
+		d->deltaY = fabs(1 / d->ray_dirY); // case entière dans chaque direction
 		if (d->ray_dirX < 0)
 		{
 			stepX = -1;
@@ -117,44 +106,43 @@ void	Raycasting(t_pars *p, t_data *d)
 				side = 1;
 			}
 			if (p->map[mapY][mapX] == '1')
-			{
-				break;
-			}
+				break ;
 		}
 		if (side == 1)
 		{
-			distance_wall = sideY - d->deltaY;
+			distance_wall = sideX - d->deltaX;
 			wall_x = d->posX + distance_wall * d->ray_dirX;
 			if (d->ray_dirX > 0)
 				dir = 3; // est
 			else
 				dir = 2; // ouest
 		}
-		else
+		else if (side == 0)
 		{
-			distance_wall = sideX - d->deltaX;
-			wall_x = d->posX + distance_wall * d->ray_dirX;
+			distance_wall = sideY - d->deltaY;
+			wall_x = d->posY + distance_wall * d->ray_dirY;
 			if (d->ray_dirY > 0)
 				dir = 1; // sud
 			else
 				dir = 0; // nord
 		}
-	
 		wall_x -= floor(wall_x);
-		distance_wall = distance_wall / fabs((d->ray_dirX * d->dirX) + (d->ray_dirY * d->dirY));
 		wall_height = SCREEN_HEIGHT / distance_wall;
+		if (wall_height <= 0)
+			wall_height = 1;
 		draw_start = -wall_height / 2 + SCREEN_HEIGHT / 2;
 		draw_end = wall_height / 2 + SCREEN_HEIGHT / 2;
 		if (draw_start < 0)
 			draw_start = 0;
-		if (draw_end > SCREEN_HEIGHT)
+		if (draw_end >= SCREEN_HEIGHT)
 			draw_end = SCREEN_HEIGHT - 1;
-		tex_x = (int)(wall_x * TEXTURE_SIZE);
-		if ((side == 0 && d->ray_dirX > 0) || (side == 1 && d->ray_dirY < 0))
+		tex_x = (int)(wall_x * TEXTURE_SIZE); // 64 = taille pixel
+		if ((side == 0 && d->ray_dirX < 0) || (side == 1 && d->ray_dirY > 0))
 			tex_x = TEXTURE_SIZE - tex_x - 1;
 		step = 1.0 * TEXTURE_SIZE / wall_height;
 		pos = (draw_start - SCREEN_HEIGHT / 2 + wall_height / 2) * step;
 		dw = 0;
+		printf("distance_wall: %f, wall_height: %d, draw_start: %d, draw_end: %d\n", distance_wall, wall_height, draw_start, draw_end);
 		while (dw < SCREEN_HEIGHT)
 		{
 			if (dw < draw_start)
@@ -172,6 +160,9 @@ void	Raycasting(t_pars *p, t_data *d)
 			}
 			dw++;
 		}
+		x++;
 	}
 	mlx_put_image_to_window(d->mlx, d->mlx_window, d->img_ptr, 0, 0);
 }
+
+// faire une fonction qui actualise la direction du joueur

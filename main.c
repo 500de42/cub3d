@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:38:04 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/07 12:50:34 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/08 21:22:45 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ void	init_pars(t_pars *p)
 int	game_loop(t_data *d)
 {
 	move_player(d);
+	mlx_destroy_image(d->mlx, d->img_ptr);
+	d->img_ptr = mlx_new_image(d->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	d->img_addr = mlx_get_data_addr(d->img_ptr, &d->tex_bpp,
+			&d->tex_line_length, &d->tex_endian);
 	Raycasting(d->p, d);
 	return (0);
 }
@@ -36,7 +40,7 @@ int	main(int ac, char **av)
 {
 	t_pars	*p;
 	t_data	*d;
-	
+
 	check_(av, ac);
 	p = malloc(sizeof(t_pars));
 	if (!p)
@@ -50,19 +54,20 @@ int	main(int ac, char **av)
 	d->mlx = mlx_init();
 	if (!d->mlx)
 		free_all(p, d, "Error\nInit mlx\n");
-	d->mlx_window = mlx_new_window(d->mlx, SCREEN_WIDTH,
-		 SCREEN_HEIGHT, "Cub3D");
+	d->mlx_window = mlx_new_window(d->mlx, SCREEN_WIDTH, SCREEN_HEIGHT,
+			"Cub3D");
 	if (!d->mlx_window)
 		free_all(p, d, "Error\nInit mlx_window\n");
 	d->p = p;
 	d->img_ptr = mlx_new_image(d->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	d->img_addr = mlx_get_data_addr(d->img_ptr, &d->tex_bpp, &d->tex_line_length, &d->tex_endian);
+	d->img_addr = mlx_get_data_addr(d->img_ptr, &d->tex_bpp,
+			&d->tex_line_length, &d->tex_endian);
 	load_textures(d, p);
 	Raycasting(p, d);
 	mlx_hook(d->mlx_window, 17, 0, &close_window, d);
 	mlx_hook(d->mlx_window, KeyPress, KeyPressMask, key_press_handler, d);
-    mlx_hook(d->mlx_window, KeyRelease, KeyReleaseMask, key_release_handler, d);
-	mlx_hook(d->mlx_window, MotionNotify, PointerMotionMask, mouse_handler, d);
+	mlx_hook(d->mlx_window, KeyRelease, KeyReleaseMask, key_release_handler, d);
+	mlx_hook(d->mlx_window, MotionNotify, PointerMotionMask, mouse_handler,d);
 	mlx_loop_hook(d->mlx, game_loop, d);
 	mlx_loop(d->mlx);
 }

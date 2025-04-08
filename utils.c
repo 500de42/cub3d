@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 18:15:56 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/07 12:23:37 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/08 14:34:06 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	**copy_map(t_pars *data)
 	char	*old_line_map;
 	char	*temp;
 
+	cpy_map = NULL;
 	line_map = ft_strdup("");
 	temp = get_next_line(data->fd);
 	if (!temp)

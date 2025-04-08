@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 20:25:17 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/07 13:00:28 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/08 15:05:45 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+void	init_tex(t_data *d)
+{
+	int i;
+
+	i = 0;
+	while (i < 4)
+	{
+		d->tex_addr[i] = malloc (sizeof(char));
+		d->tex_ptr[i] = malloc (sizeof(void));
+		d->texture_buffer[i] = malloc(sizeof(void));
+		i++;
+	}
+}
 
 void	init_data(t_data *d, t_pars *p)
 {
@@ -25,7 +39,12 @@ void	init_data(t_data *d, t_pars *p)
 	d->floor_color = rbg_in_int(p->floor_rgb);
 	d->tex_buff = 0;
 	init_dir_player(d, p);
+	init_movement(d);
+	// init_tex(d);
 }
+
+
+
 
 void	init_dir_player(t_data *d, t_pars *p)
 {
