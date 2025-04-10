@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:38:04 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/08 21:22:45 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/10 21:01:08 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ int	main(int ac, char **av)
 	d->img_addr = mlx_get_data_addr(d->img_ptr, &d->tex_bpp,
 			&d->tex_line_length, &d->tex_endian);
 	load_textures(d, p);
-	Raycasting(p, d);
+	// Raycasting(p, d);
 	mlx_hook(d->mlx_window, 17, 0, &close_window, d);
 	mlx_hook(d->mlx_window, KeyPress, KeyPressMask, key_press_handler, d);
 	mlx_hook(d->mlx_window, KeyRelease, KeyReleaseMask, key_release_handler, d);
-	mlx_hook(d->mlx_window, MotionNotify, PointerMotionMask, mouse_handler,d);
+	//mlx_hook(d->mlx_window, MotionNotify, PointerMotionMask, mouse_handler,d);
 	mlx_loop_hook(d->mlx, game_loop, d);
 	mlx_loop(d->mlx);
 }

@@ -1,7 +1,8 @@
 #include "cub3d.h"
 
-int	key_press_handler(t_data *data, int key)
+int	key_press_handler(int key, t_data *data)
 {
+	//printf("%d\n", );
 	if (key == XK_Escape)
 	{
 		// function to clean and close the window
@@ -13,7 +14,10 @@ int	key_press_handler(t_data *data, int key)
 	if (key == XK_Right)
 		data->right_rotate = true;
 	if (key == XK_w)
+	{
 		data->key_up = true;
+		//printf("adsadsadsasdadsdasdsLOLOLO\n");
+	}
 	if (key == XK_s)
 		data->key_down = true;
 	if (key == XK_d)
@@ -23,7 +27,7 @@ int	key_press_handler(t_data *data, int key)
 	return (0);
 }
 
-int	key_release_handler(t_data *data, int key)
+int	key_release_handler(int key, t_data *data)
 {
 	if (key == XK_Left)
 		data->left_rotate = false;
@@ -42,17 +46,20 @@ int	key_release_handler(t_data *data, int key)
 
 void	rotate_player(t_data *data)
 {
-	int		speed;
+	//int		speed;
 	float	angle_speed;
-	float	cos_angle;
-	float	sin_angle;
+	//float	cos_angle;
+	//float	sin_angle;
 
-	speed = 3;
+	//speed = 3;
 	angle_speed = 0.03;
-	cos_angle = cos(data->angle);
-	sin_angle = sin(data->angle);
+	//cos_angle = cos(data->angle);
+	//sin_angle = sin(data->angle);
 	if (data->left_rotate)
+	{
+		printf("eh ouas\n");
 		data->angle -= angle_speed;
+	}
 	if (data->right_rotate)
 		data->angle += angle_speed;
 	if (data->angle > 2 * M_PI)
@@ -61,7 +68,7 @@ void	rotate_player(t_data *data)
 		data->angle = 2 * M_PI;
 }
 
-void	get_mouse_position(t_data *data, int x, int y)
+/*void	get_mouse_position(t_data *data, int x, int y)
 {
 	if (x > SCREEN_WIDTH - DIST_EDGE_MOUSE_WRAP)
 	{
@@ -73,9 +80,9 @@ void	get_mouse_position(t_data *data, int x, int y)
 		x = SCREEN_WIDTH - DIST_EDGE_MOUSE_WRAP;
 		mlx_mouse_move(data->mlx, data->mlx_window, x, y);
 	}
-}
+}*/
 
-int	mouse_handler(t_data *data, int x, int y)
+/*int	mouse_handler(t_data *data, int x, int y)
 {
 	get_mouse_position(data, x, y);
 	if (x == SCREEN_WIDTH / 2)
@@ -94,9 +101,10 @@ int	mouse_handler(t_data *data, int x, int y)
 		;
 	}
 	return (0);
-}
+}*/
 void	move_player(t_data *data)
 {
+	//printf("asdjlhdasjkhashdkajsdhadsHAHAHAHA\n");
 	if (data->left_rotate || data->right_rotate)
 		rotate_player(data);
 	if (data->key_up)

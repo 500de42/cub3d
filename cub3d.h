@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/08 20:37:31 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:47:36 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,8 @@ void		init_dir_player(t_data *d, t_pars *p);
 /////////////// MOOVE PLAYER //////////////////
 
 void 		init_movement(t_data *data);
-int 		key_press_handler(t_data *data, int key);
-int 		key_release_handler(t_data *data , int key);
+int 		key_press_handler(int key, t_data *data);
+int 		key_release_handler(int key, t_data *data);
 void 		rotate_player(t_data *data);
 void		get_mouse_position(t_data *data, int x, int y);
 int 		mouse_handler(t_data *data, int x, int y);

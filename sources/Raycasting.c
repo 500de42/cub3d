@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 20:44:40 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/08 20:55:05 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/10 20:34:19 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	load_textures(t_data *d, t_pars *p)
 		if (!d->tex_addr[i])
 			free_all(p, d, "Error\nLoad texture1\n");
 		d->texture_buffer[i] = (int *)d->tex_addr[i];
+		printf("%d %d\n\n",width, height);
 		i++;
 	}
 	d->tex_buff = 1;
@@ -133,13 +134,12 @@ void	Raycasting(t_pars *p, t_data *d)
 		else
 		{
 			distance_wall = sideX - d->deltaX;
-			wall_x = d->posX + distance_wall * d->ray_dirX;
+			wall_x = d->posY + distance_wall * d->ray_dirY;
 			if (d->ray_dirY > 0)
 				dir = 1; // sud
 			else
 				dir = 0; // nord
 		}
-	
 		wall_x -= floor(wall_x);
 		distance_wall = distance_wall / fabs((d->ray_dirX * d->dirX) + (d->ray_dirY * d->dirY));
 		wall_height = SCREEN_HEIGHT / distance_wall;
