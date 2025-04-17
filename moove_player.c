@@ -2,7 +2,6 @@
 
 int	key_press_handler(int key, t_data *data)
 {
-	//printf("%d\n", );
 	if (key == XK_Escape)
 	{
 		// function to clean and close the window
@@ -10,14 +9,17 @@ int	key_press_handler(int key, t_data *data)
 		exit(0);
 	}
 	if (key == XK_Left)
-		data->left_rotate = true;
-	if (key == XK_Right)
-		data->right_rotate = true;
-	if (key == XK_w)
 	{
-		data->key_up = true;
-		//printf("adsadsadsasdadsdasdsLOLOLO\n");
+		data->left_rotate = true;
+		data -> rotate -= 1;
 	}
+	if (key == XK_Right)
+	{
+		data->right_rotate = true;
+		data -> rotate += 1;
+	}
+	if (key == XK_w)
+		data->key_up = true;
 	if (key == XK_s)
 		data->key_down = true;
 	if (key == XK_d)
@@ -30,9 +32,15 @@ int	key_press_handler(int key, t_data *data)
 int	key_release_handler(int key, t_data *data)
 {
 	if (key == XK_Left)
+	{
 		data->left_rotate = false;
+		data -> rotate = 0;
+	}
 	if (key == XK_Right)
+	{
 		data->right_rotate = false;
+		data -> rotate = 0;
+	}
 	if (key == XK_w)
 		data->key_up = false;
 	if (key == XK_s)
@@ -46,29 +54,21 @@ int	key_release_handler(int key, t_data *data)
 
 void	rotate_player(t_data *data)
 {
-	//int		speed;
-	float	angle_speed;
-	//float	cos_angle;
-	//float	sin_angle;
+	double oldPlaneX;
+	double oldDirX;
+	double angle_speed;
 
-	//speed = 3;
-	angle_speed = 0.03;
-	//cos_angle = cos(data->angle);
-	//sin_angle = sin(data->angle);
-	if (data->left_rotate)
-	{
-		printf("eh ouas\n");
-		data->angle -= angle_speed;
-	}
-	if (data->right_rotate)
-		data->angle += angle_speed;
-	if (data->angle > 2 * M_PI)
-		data->angle = 0;
-	if (data->angle < 0)
-		data->angle = 2 * M_PI;
+	oldPlaneX = data -> planeX;
+	oldDirX = data -> dirX;
+	angle_speed = 0.015 * data -> rotate;
+
+	data ->dirX = data ->dirX * cos(angle_speed) - data -> dirY * sin(angle_speed);
+	data -> dirY = oldDirX * sin(angle_speed) + data -> dirY * cos(angle_speed);
+	data -> planeX = data -> planeX * cos(angle_speed) - data -> planeY * sin(angle_speed);
+	data -> planeY = oldPlaneX * sin(angle_speed) + data -> planeY * cos(angle_speed);
 }
 
-/*void	get_mouse_position(t_data *data, int x, int y)
+void	get_mouse_position(t_data *data, int x, int y)
 {
 	if (x > SCREEN_WIDTH - DIST_EDGE_MOUSE_WRAP)
 	{
@@ -80,33 +80,38 @@ void	rotate_player(t_data *data)
 		x = SCREEN_WIDTH - DIST_EDGE_MOUSE_WRAP;
 		mlx_mouse_move(data->mlx, data->mlx_window, x, y);
 	}
-}*/
+}
 
-/*int	mouse_handler(t_data *data, int x, int y)
+int	mouse_handler(int x, int y, t_data *data)
 {
+	
+	static int tmpX = SCREEN_WIDTH / 2;
+
 	get_mouse_position(data, x, y);
 	if (x == SCREEN_WIDTH / 2)
 		return (0);
-	else if (x > SCREEN_WIDTH / 2)
+	else if (x > tmpX)
 	{
-		data->right_rotate = true;
+		data -> rotate += 1;
 		rotate_player(data);
-		data->right_rotate = false;
+		data -> rotate = 0;
 	}
-	else if (x < SCREEN_WIDTH / 2)
+	else if (x < tmpX)
 	{
-		data->left_rotate = true;
+		data -> rotate -= 1;
 		rotate_player(data);
-		data->left_rotate = false;
-		;
+		data -> rotate = 0;	
 	}
+	tmpX = x;
 	return (0);
-}*/
+}
 void	move_player(t_data *data)
 {
-	//printf("asdjlhdasjkhashdkajsdhadsHAHAHAHA\n");
 	if (data->left_rotate || data->right_rotate)
+	{
 		rotate_player(data);
+		return ;
+	}
 	if (data->key_up)
 	{
 		data->posX += data->dirX * MSPEED;

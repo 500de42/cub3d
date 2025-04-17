@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 20:25:17 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/08 15:05:45 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:31:59 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,10 @@ void	init_data(t_data *d, t_pars *p)
 	d->ceiling_color = rbg_in_int(p->ceiling_rgb);
 	d->floor_color = rbg_in_int(p->floor_rgb);
 	d->tex_buff = 0;
+	d->rotate = 0;
 	init_dir_player(d, p);
 	init_movement(d);
-	// init_tex(d);
 }
-
-
-
 
 void	init_dir_player(t_data *d, t_pars *p)
 {
@@ -91,4 +88,28 @@ void init_movement(t_data *data)
     data -> key_left = false;
     data -> key_right = false;
     data -> key_up = false;
+}
+
+void	init_ray(t_ray *r)
+{
+	r->stepX = -1;
+	r->stepY = -1;
+	r->sideX = -1;
+	r->sideY = -1;
+	r->side = -1;
+	r->mapX = -1;
+	r->mapY = -1;
+	r->x = -1;
+	r->distance_wall = -1;
+	r->wall_height = -1;
+	r->draw_start = -1;
+	r->draw_end = -1;
+	r->wall_x = -1;
+	r->tex_x = -1;
+	r->tex_y = -1;
+	r->color = -1;
+	r->step = -1;
+	r->pos = -1;
+	r->dir = -1;
+	r->dw = -1;
 }
