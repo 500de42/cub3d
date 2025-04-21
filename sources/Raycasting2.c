@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Raycasting2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:12:36 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/19 15:39:05 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/21 13:32:49 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ void	def_before_draw(t_data *d, t_ray *r)
 		r->draw_start = 0;
 	if (r->draw_end > SCREEN_HEIGHT)
 		r->draw_end = SCREEN_HEIGHT - 1;
-	r->tex_x = (int)(r->wall_x * TEXTURE_SIZE);
+	r->tex_x = (int)(r->wall_x * d->tex_width[r->dir]);
 	if ((r->side == 0 && d->ray_dirX > 0) || (r->side == 1 && d->ray_dirY < 0))
-		r->tex_x = TEXTURE_SIZE - r->tex_x - 1;
-	r->step = 1.0 * TEXTURE_SIZE / r->wall_height;
+		r->tex_x = d->tex_width[r->dir] - r->tex_x - 1;
+	r->step = 1.0 * d->tex_height[r->dir] / r->wall_height;
 	r->pos = (r->draw_start - SCREEN_HEIGHT / 2 + r->wall_height / 2) * r->step;
 }
 
@@ -64,10 +64,13 @@ void	loop_put_pixel(t_data *d, t_ray *r)
 			put_pixel_to_img(d, r->x, r->dw, d->floor_color);
 		else
 		{
-			r->tex_y = (int)r->pos & (TEXTURE_SIZE - 1);
+			r->tex_y = (int)r->pos;
 			r->pos += r->step;
-			r->color = d->texture_buffer[r->dir][TEXTURE_SIZE * r->tex_y
-				+ r->tex_x];
+			if (r->tex_y < 0)
+				r->tex_y = 0;
+			if (r->tex_y >= d->tex_height[r->dir])
+				r->tex_y = d->tex_height[r->dir] - 1;
+			r->color = d->texture_buffer[r->dir][r->tex_y * d->tex_width[r->dir] + r->tex_x];
 			put_pixel_to_img(d, r->x, r->dw, r->color);
 		}
 		r->dw++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/19 16:25:52 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/21 13:12:12 by kalvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ typedef struct t_data
 	char *tex_addr[4];      // Adresses mémoire des textures
 	void *img_ptr;          // Pointeur vers les img
 	void *img_addr;         // pointeur vers l adresse de l img
+	int tex_width[4];
+	int tex_height[4];
 	int tex_bpp, tex_line_length, tex_endian;
 	void	*mlx_window;
 	void	*mlx;
