@@ -1,6 +1,6 @@
 NAME = cub3D
 
-SRC = main.c parsing/parsing.c sources/utils.c sources/init.c sources/Raycasting.c sources/Raycasting2.c sources/moove_player.c sources/utils2.c sources/moove_player2.c parsing/parsing2.c parsing/parsing3.c parsing/parsing4.c
+SRC = main.c parsing/parsing.c sources/utils.c sources/init.c sources/Raycasting.c sources/Raycasting2.c sources/moove_player.c sources/utils2.c  sources/gnl.c sources/moove_player2.c parsing/parsing2.c parsing/parsing3.c parsing/parsing4.c
 OBJ = $(SRC:.c=.o)
 
 CFLAGS = -Wall -Wextra -Werror -fPIE -g3

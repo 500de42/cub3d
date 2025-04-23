@@ -6,20 +6,34 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:49:25 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/19 16:03:04 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:29:19 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	free_all(t_pars *p, t_data *d, char *s)
+void	free_all(t_data *d, char *s)
 {
 	ft_putstr_fd(s, 2);
-	ft_free_array(p->map_test);
-	free(p);
-	mlx_destroy_display(d->mlx);
-	free(d->mlx);
-	free(d);
+	if (d)
+	{
+		free_data_close(d);
+		destroy_texture(d);
+		if (d->img_ptr)
+			mlx_destroy_image(d->mlx, d->img_ptr);
+		if (d->img_addr)
+			free(d->img_addr);
+		if (d->mlx_window && d->mlx)
+			mlx_destroy_window(d->mlx, d->mlx_window);
+		if (d->mlx)
+		{
+			mlx_destroy_display(d->mlx);
+			free(d->mlx);
+		}
+		if (d->r)
+			free(d->r);
+		free(d);
+	}
 	exit(1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 18:15:56 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/19 14:27:48 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:37:17 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,28 @@ int	check_check(char *line_map)
 	return (1);
 }
 
+int	checkk(char *s)
+{
+	int	i;
+	int	len;
+	int	check;
+
+	i = 0;
+	check = 0;
+	if (!s)
+		return (0);
+	len = ft_strlen(s);
+	while (s[i])
+	{
+		if (s[i] == '1')
+			check++;
+		i++;
+	}
+	if (check == (len - 1) && ft_strncmp(s, "\n", 1))
+		return (1);
+	return (0);
+}
+
 char	**copy_map(t_pars *data)
 {
 	char	**cpy_map;
@@ -40,7 +62,7 @@ char	**copy_map(t_pars *data)
 
 	cpy_map = NULL;
 	line_map = ft_strdup("");
-	temp = get_next_line(data->fd);
+	temp = gnl(data->fd, data);
 	if (!temp)
 		return (NULL);
 	while (temp)
@@ -49,13 +71,26 @@ char	**copy_map(t_pars *data)
 		line_map = ft_strjoin(line_map, temp);
 		free(old_line_map);
 		free(temp);
-		temp = get_next_line(data->fd);
+		temp = gnl(data->fd, data);
+		if (checkk(temp))
+			data->check = 1;
+		if (temp && data->check)
+		{
+			if (!ft_strncmp(temp, "\n", 1))
+			{
+				free(temp);
+				free(line_map);
+				return (NULL);
+			}
+		}
 	}
 	if (line_map == NULL)
 		free(line_map);
 	else
+	{
 		cpy_map = ft_split(line_map, '\n');
-	free(line_map);
+		free(line_map);
+	}
 	return (cpy_map);
 }
 

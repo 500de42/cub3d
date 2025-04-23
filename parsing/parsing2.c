@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:17:11 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/19 14:32:08 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:37:07 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ void	check_sprite(t_pars *d)
 void	first_check_rgb(t_pars *d, int *y, int *x, char *c)
 {
 	if (d->map_test[*y][*x] != 'C' && d->map_test[*y][*x] != 'F')
-	{
-		printf("\n%c\n", d->map_test[*y][*x]);
 		free_parsing(d, "error\nBad character\n");
-	}
 	*c = d->map_test[*y][*x];
 	if (d->map_test[*y][(*x) + 1] != ' ')
 		free_parsing(d, "error\nexepted format <F number,number,number>\n");
@@ -67,7 +64,8 @@ void	loops_check_rgb(t_pars *d, int i, int *y, char *nb)
 	}
 	while (d->map_test[*y][i])
 	{
-		if (d->map_test[*y][i] == '-')
+		if (d->map_test[*y][i] == '-' || d->map_test[*y][i] == '"'
+			|| d->map_test[*y][i] == '\'')
 		{
 			free(nb);
 			free_parsing(d, "error\nNegative number not accepted\n");

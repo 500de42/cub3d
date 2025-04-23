@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/21 13:12:12 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/22 19:00:32 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ typedef struct t_pars
 	int		tex;
 	int		virg;
 	int		j;
+	int check;
+	char	pp;
 }			t_pars;
 
 typedef struct t_ray
@@ -169,7 +171,7 @@ void		def_before_draw(t_data *d, t_ray *r);
 
 void		free_parsing(t_pars *d, char *s);
 void		destroy_texture(t_data *data);
-void		free_all(t_pars *p, t_data *d, char *s);
+void		free_all(t_data *d, char *s);
 void		free_cv_rgb(char **tab, t_pars *d);
 void		free_data_close(t_data *d);
 
@@ -184,6 +186,7 @@ void		init_dir_player(t_data *d, t_pars *p);
 void		init_ray(t_ray *r);
 void		init_mlx_and_loop(t_pars *p, t_data *d);
 void		init_dir_player_norm(t_data *d, t_pars *p);
+char		*gnl(int fd, t_pars *d);
 
 /////////////// MOOVE PLAYER //////////////////
 

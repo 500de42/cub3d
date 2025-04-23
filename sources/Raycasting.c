@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 20:44:40 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/21 13:14:40 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/22 19:23:47 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,12 @@ void	load_textures(t_data *d, t_pars *p)
 		d->tex_ptr[i] = mlx_xpm_file_to_image(d->mlx, p->texture_path[i],
 				&d->tex_width[i], &d->tex_height[i]);
 		if (!d->tex_ptr[i])
-			free_all(p, d, "Error\nLoad texture2\n");
+			free_all(d, "Error\nLoad texture2\n");
 		d->tex_addr[i] = mlx_get_data_addr(d->tex_ptr[i], &d->tex_bpp,
 				&d->tex_line_length, &d->tex_endian);
 		if (!d->tex_addr[i])
-			free_all(p, d, "Error\nLoad texture1\n");
+			free_all(d, "Error\nLoad texture1\n");
 		d->texture_buffer[i] = (int *)d->tex_addr[i];
-		printf("%d %d\n\n", d->tex_width[i], d->tex_height[i]);
 		i++;
 	}
 	d->tex_buff = 1;

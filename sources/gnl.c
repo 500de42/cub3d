@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   gnl.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 14:24:55 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/22 16:13:02 by kcharbon         ###   ########.fr       */
+/*   Created: 2025/04/22 16:13:30 by kcharbon          #+#    #+#             */
+/*   Updated: 2025/04/22 16:29:01 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../cub3d.h"
 
 static char	*ft_next_line(char *line)
 {
@@ -69,12 +69,12 @@ static char	*ft_line(int fd, char *dest, char *buffer)
 	return (dest);
 }
 
-char	*get_next_line(int fd)
+char	*gnl(int fd, t_pars *d)
 {
 	static char	*dest = NULL;
 	char		*line;
 	char		*buffer;
-	
+
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buffer == NULL)
 		return (NULL);
@@ -92,5 +92,7 @@ char	*get_next_line(int fd)
 	if (line == NULL)
 		return (NULL);
 	dest = ft_next_line(line);
+	if (d->check && line[0] == '\n')
+		free(dest);
 	return (line);
 }

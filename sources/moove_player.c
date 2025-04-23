@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:21:53 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/19 14:27:27 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:45:46 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	rotate_player(t_data *data)
 
 	old_plane_x = data->planeX;
 	old_dir_x = data->dirX;
-	angle_speed = 0.015 * data->rotate;
+	angle_speed = 0.025 * data->rotate;
 	data->dirX = data->dirX * cos(angle_speed) - data->dirY * sin(angle_speed);
 	data->dirY = old_dir_x * sin(angle_speed) + data->dirY * cos(angle_speed);
 	data->planeX = data->planeX * cos(angle_speed) - data->planeY

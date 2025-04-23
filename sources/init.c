@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 20:25:17 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/19 16:25:16 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:13:24 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ void	init_data(t_data *d, t_pars *p)
 	d->floor_color = rbg_in_int(p->floor_rgb);
 	d->tex_buff = 0;
 	d->rotate = 0;
+	d->p = NULL;
+	d->r = NULL;
+	d->img_addr = NULL;
+	d->img_ptr = NULL;
+	d->mlx = NULL;
+	d->mlx_window = NULL;
 	init_dir_player(d, p);
 	init_movement(d);
 }
