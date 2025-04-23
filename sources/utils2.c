@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:49:25 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/22 19:29:19 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:53:05 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,32 @@ int	close_window(t_data *d)
 		free(d);
 	}
 	exit(0);
+	return (0);
+}
+
+void	if_end_copy_map(char **line_map, char ***cpy_map)
+{
+	if (*line_map == NULL)
+		free(*line_map);
+	else
+	{
+		*cpy_map = ft_split(*line_map, '\n');
+		free(*line_map);
+	}
+}
+
+int	if_space_in_copy_map(t_pars *data, char *temp, char *line_map)
+{
+	if (checkk(temp))
+		data->check = 1;
+	if (temp && data->check)
+	{
+		if (!ft_strncmp(temp, "\n", 1))
+		{
+			free(temp);
+			free(line_map);
+			return (1);
+		}
+	}
 	return (0);
 }

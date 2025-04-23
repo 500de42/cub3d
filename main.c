@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:38:04 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/22 19:19:50 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:54:31 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ void	init_pars(t_pars *p)
 	p->check = 0;
 	p->pp = '\0';
 	p->map = NULL;
-	p-> map_test = NULL;
-	
+	p->map_test = NULL;
 }
 
 int	game_loop(t_data *d)
@@ -110,9 +109,8 @@ int	main(int ac, char **av)
 	init_mlx_and_loop(p, d);
 }
 
-
 /*
-(ulimit -v 108000 ; valgrind --leak-check=full ./cub3D map.cub) 
+(ulimit -v 108000 ; valgrind --leak-check=full ./cub3D map.cub)
 probleme quand on ce detache du mur
 
  111

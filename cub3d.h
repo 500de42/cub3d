@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/22 19:00:32 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:53:43 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,6 @@ void		free_data_close(t_data *d);
 
 void		init_data(t_data *d, t_pars *p);
 void		init_pars(t_pars *p);
-double		cdir(int degres);
 int			close_window(t_data *d);
 int			game_loop(t_data *d);
 void		init_dir_player(t_data *d, t_pars *p);
@@ -187,6 +186,8 @@ void		init_ray(t_ray *r);
 void		init_mlx_and_loop(t_pars *p, t_data *d);
 void		init_dir_player_norm(t_data *d, t_pars *p);
 char		*gnl(int fd, t_pars *d);
+int			if_space_in_copy_map(t_pars *data, char *temp, char *line_map);
+void		if_end_copy_map(char **line_map, char ***cpy_map);
 
 /////////////// MOOVE PLAYER //////////////////
 

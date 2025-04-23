@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:19:00 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/22 19:21:57 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:50:13 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,15 @@ void	loop_last_check(t_pars *d, int x, int y, int map_len_y)
 		if (((int)ft_strlen(d->map[y - 1]) < x) || (d->map[y - 1][x] <= 32))
 			free_parsing(d, "error\nNon-conforming card10");
 	if ((x + 1 < (int)ft_strlen(d->map[y])) && (d->map[y][x] == '0'
-			|| d->map[y][x] == d->pp))
+		|| d->map[y][x] == d->pp))
 		if (d->map[y][x + 1] <= 32 || !d->map[y][x + 1])
 			free_parsing(d, "error\nNon-conforming card11");
 	if ((x + 1 >= (int)ft_strlen(d->map[y])) && (d->map[y][x] == '0'
-			|| d->map[y][x] == d->pp))
+		|| d->map[y][x] == d->pp))
 		free_parsing(d, "error\nNon-conforming card12");
 	if ((y + 1 < map_len_y) && (d->map[y][x] == '0' || d->map[y][x] == d->pp))
 		if (((int)ft_strlen(d->map[y + 1]) < x) || (d->map[y + 1][x] <= 32)
-			|| (!d->map[y][x + 1]))
+		|| (!d->map[y][x + 1]))
 			free_parsing(d, "error\nNon-conforming card13");
 }
 

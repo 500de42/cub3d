@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Raycasting2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kalvin <kalvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:12:36 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/21 13:32:49 by kalvin           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:22:42 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	loop_put_pixel(t_data *d, t_ray *r)
 				r->tex_y = 0;
 			if (r->tex_y >= d->tex_height[r->dir])
 				r->tex_y = d->tex_height[r->dir] - 1;
-			r->color = d->texture_buffer[r->dir][r->tex_y * d->tex_width[r->dir] + r->tex_x];
+			r->color = d->texture_buffer[r->dir][r->tex_y * d->tex_width[r->dir]
+				+ r->tex_x];
 			put_pixel_to_img(d, r->x, r->dw, r->color);
 		}
 		r->dw++;
