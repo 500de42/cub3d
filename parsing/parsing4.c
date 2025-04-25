@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:19:00 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/23 18:50:13 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:54:09 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	check_map_space(t_pars *d, char **map, int y, int x)
 			if (map[y][x] != '1' && map[y][x] != '0' && map[y][x] != ' '
 				&& map[y][x] != 'N' && map[y][x] != 'S' && map[y][x] != 'E'
 				&& map[y][x] != 'W')
-				free_parsing(d, "error\nNon-conforming card7");
+				free_parsing(d, "error\nNon-conforming map");
 			if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'E'
 				|| map[y][x] == 'W')
 			{
@@ -52,30 +52,30 @@ void	check_map_space(t_pars *d, char **map, int y, int x)
 		}
 	}
 	if (map[y - 1][x - 1] != '1' || d->N != 1)
-		free_parsing(d, "error\nNon-conforming card1");
+		free_parsing(d, "error\nNon-conforming map");
 }
 
 void	loop_last_check(t_pars *d, int x, int y, int map_len_y)
 {
 	if ((d->map[y][x] == '0' || d->map[y][x] == d->pp) && x > 0)
 		if (d->map[y][x - 1] <= 32)
-			free_parsing(d, "error\nNon-conforming card9");
+			free_parsing(d, "error\nNon-conforming map");
 	if ((d->map[y][x] == '0' || d->map[y][x] == d->pp) && x == 0)
-		free_parsing(d, "error\nNon-conforming card9");
+		free_parsing(d, "error\nNon-conforming map");
 	if ((d->map[y][x] == '0' || d->map[y][x] == d->pp) && y > 0)
 		if (((int)ft_strlen(d->map[y - 1]) < x) || (d->map[y - 1][x] <= 32))
-			free_parsing(d, "error\nNon-conforming card10");
+			free_parsing(d, "error\nNon-conforming map");
 	if ((x + 1 < (int)ft_strlen(d->map[y])) && (d->map[y][x] == '0'
 		|| d->map[y][x] == d->pp))
 		if (d->map[y][x + 1] <= 32 || !d->map[y][x + 1])
-			free_parsing(d, "error\nNon-conforming card11");
+			free_parsing(d, "error\nNon-conforming map");
 	if ((x + 1 >= (int)ft_strlen(d->map[y])) && (d->map[y][x] == '0'
 		|| d->map[y][x] == d->pp))
-		free_parsing(d, "error\nNon-conforming card12");
+		free_parsing(d, "error\nNon-conforming map");
 	if ((y + 1 < map_len_y) && (d->map[y][x] == '0' || d->map[y][x] == d->pp))
 		if (((int)ft_strlen(d->map[y + 1]) < x) || (d->map[y + 1][x] <= 32)
 		|| (!d->map[y][x + 1]))
-			free_parsing(d, "error\nNon-conforming card13");
+			free_parsing(d, "error\nNon-conforming map");
 }
 
 void	last_check(t_pars *d)
@@ -103,7 +103,7 @@ void	check_map(char *av, t_pars *d)
 	d->fd = open(av, O_RDONLY);
 	if (d->fd == -1)
 	{
-		perror("error\nErreur lors de l'ouverture du fichier: \n");
+		perror("error\nOpening file: \n");
 		free(d);
 		exit(1);
 	}

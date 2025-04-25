@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:24:55 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/22 16:13:02 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/25 14:48:33 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*get_next_line(int fd)
 	static char	*dest = NULL;
 	char		*line;
 	char		*buffer;
-	
+
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buffer == NULL)
 		return (NULL);

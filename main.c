@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:38:04 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/23 18:54:31 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:40:15 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,21 +112,4 @@ int	main(int ac, char **av)
 /*
 (ulimit -v 108000 ; valgrind --leak-check=full ./cub3D map.cub)
 probleme quand on ce detache du mur
-
- 111
- 1N1
- 1 1
-
-(check_player)
-111
-1111111111N1
-111
-
-(use ft_strlen pour map - 1 et map + 1)
-111
-1N1111111101
-111
-
-pour les still reacheble de ulimit ne pas oublier d'use mlx destroy
-
 */

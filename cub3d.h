@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/23 18:53:43 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/25 14:16:03 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,16 @@
 #  define SCREEN_HEIGHT 1080
 # endif
 # ifndef MSPEED
-#  define MSPEED 0.0150
+#  define MSPEED 0.0700
 # endif
 # define DIST_EDGE_MOUSE_WRAP 20
 # ifndef TEXTURE_SIZE
 #  define TEXTURE_SIZE 64
 # endif
+# ifndef HITBOX
+#  define HITBOX 0.1
+# endif
+
 typedef struct t_pars
 {
 	int		fd;
@@ -61,7 +65,7 @@ typedef struct t_pars
 	int		tex;
 	int		virg;
 	int		j;
-	int check;
+	int		check;
 	char	pp;
 }			t_pars;
 
@@ -107,13 +111,13 @@ typedef struct t_data
 	double	planeY;
 	int		ceiling_color;
 	int		floor_color;
-	int *texture_buffer[4]; // Stocke les textures sous forme de tableau 1D
-	void *tex_ptr[4];       // Pointeurs vers les textures MLX
-	char *tex_addr[4];      // Adresses mémoire des textures
-	void *img_ptr;          // Pointeur vers les img
-	void *img_addr;         // pointeur vers l adresse de l img
-	int tex_width[4];
-	int tex_height[4];
+	int		*texture_buffer[4];
+	void	*tex_ptr[4];
+	char	*tex_addr[4];
+	void	*img_ptr;
+	void	*img_addr;
+	int		tex_width[4];
+	int		tex_height[4];
 	int tex_bpp, tex_line_length, tex_endian;
 	void	*mlx_window;
 	void	*mlx;
@@ -188,6 +192,7 @@ void		init_dir_player_norm(t_data *d, t_pars *p);
 char		*gnl(int fd, t_pars *d);
 int			if_space_in_copy_map(t_pars *data, char *temp, char *line_map);
 void		if_end_copy_map(char **line_map, char ***cpy_map);
+int			checkk(char *s);
 
 /////////////// MOOVE PLAYER //////////////////
 

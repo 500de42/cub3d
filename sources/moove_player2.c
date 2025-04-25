@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:52:10 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/19 14:43:47 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/25 14:48:13 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,20 @@ int	mouse_handler(int x, int y, t_data *data)
 	return (0);
 }
 
+bool	check_wall(t_pars *p, double x, double y)
+{
+	if (p->map[(int)(y - HITBOX)][(int)(x - HITBOX)] == '1' || p->map[(int)(y
+			- HITBOX)][(int)(x + HITBOX)] == '1' || p->map[(int)(y
+			+ HITBOX)][(int)(x - HITBOX)] == '1' || p->map[(int)(y
+			+ HITBOX)][(int)(x + HITBOX)] == '1')
+		return (false);
+	return (true);
+}
+
 bool	check_position(t_pars *p, double x, double y)
 {
+	if (!check_wall(p, x, y))
+		return (false);
 	if (p->map[(int)y][(int)x] == '1')
 		return (false);
 	return (true);

@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 19:58:32 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/03/20 19:41:26 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/25 14:48:45 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ long long	ft_atoll(char *str)
 	res = 0;
 	if (str[index] == '-')
 	{
-		return (- 1);
+		return (-1);
 	}
 	while (str[index])
 	{

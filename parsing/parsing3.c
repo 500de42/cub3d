@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:17:55 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/19 14:32:15 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:52:41 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	check_first_line(char *s, t_pars *d)
 	while (s[i])
 	{
 		if (s[i] != '1' && s[i] != ' ' && s[i] != '\t')
-			free_parsing(d, "error\nNon-conforming map5");
+			free_parsing(d, "error\nNon-conforming map");
 		i++;
 	}
 }
@@ -103,7 +103,7 @@ void	check_last_line(char *s, t_pars *d)
 	while (s[i])
 	{
 		if (s[i] != '1' && s[i] != ' ' && s[i] != '\t')
-			free_parsing(d, "error\nNon-conforming map55");
+			free_parsing(d, "error\nNon-conforming map");
 		i++;
 	}
 }
