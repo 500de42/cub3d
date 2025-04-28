@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:27:57 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/28 13:12:22 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:39:08 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_(char **av, int ac)
 
 	if (ac != 2)
 	{
-		ft_putstr_fd("error\nToo arguments\n", 2);
+		ft_putstr_fd("error\nArguments\n", 2);
 		exit(1);
 	}
 	len = ft_strlen(av[1]);

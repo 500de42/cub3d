@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:17:55 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/25 13:52:41 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/28 18:08:31 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,35 +53,6 @@ int	found_the_most_insane_len(char **map)
 	return (n);
 }
 
-char	**parse_map(char **map)
-{
-	int	i;
-	int	j;
-	int	c;
-
-	i = -1;
-	c = 0;
-	while (map[++i])
-	{
-		j = -1;
-		while (map[i][++j])
-		{
-			if (map[i][j] <= 32)
-				j++;
-			else if (map[i][j] > 32)
-			{
-				c = 1;
-				break ;
-			}
-		}
-		if (c == 1)
-			break ;
-	}
-	if (!c)
-		return (NULL);
-	return (&map[i]);
-}
-
 void	check_first_line(char *s, t_pars *d)
 {
 	int	i;
@@ -89,8 +60,8 @@ void	check_first_line(char *s, t_pars *d)
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] != '1' && s[i] != ' ' && s[i] != '\t')
-			free_parsing(d, "error\nNon-conforming map");
+		if (s[i] && s[i] != '1' && s[i] != ' ' && s[i] != '\t')
+			free_parsing(d, "error\nNon-conforming map1");
 		i++;
 	}
 }

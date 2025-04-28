@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:19:00 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/28 12:14:32 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/28 18:09:17 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ void	check_start_of_map(t_pars *d, char ***map, int *map_len_y, int *map_len)
 	if (ft_tablen(d->map_test) <= 7)
 		free_parsing(d, "error\nEmpty map\n");
 	*map = &d->map_test[d->save_y + 1];
-	*map = parse_map(*map);
 	if (!*map)
 		free_parsing(d, "error\nEmpty map\n");
-	d->map = parse_map(*map);
+	d->map = *map;
 	*map_len_y = ft_tablen(*map);
 	check_first_line((*map)[0], d);
 	check_last_line((*map)[*map_len_y - 1], d);
