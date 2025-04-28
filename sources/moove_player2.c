@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:52:10 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/25 14:48:13 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:12:44 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,17 @@ int	mouse_handler(int x, int y, t_data *data)
 		return (0);
 	else if (x > tmp_x)
 	{
-		data->rotate += 1;
+		data->rotate -= 1;
+		if (data->p->d == 'E' || data->p->d == 'N')
+			data->rotate += 2;
 		rotate_player(data);
 		data->rotate = 0;
 	}
 	else if (x < tmp_x)
 	{
-		data->rotate -= 1;
+		data->rotate += 1;
+		if (data->p->d == 'E' || data->p->d == 'N')
+			data->rotate -= 2;
 		rotate_player(data);
 		data->rotate = 0;
 	}
@@ -58,23 +62,23 @@ void	move_operation(t_data *data, double *x, double *y)
 {
 	if (data->key_up)
 	{
-		*x += data->dirX * MSPEED;
-		*y += data->dirY * MSPEED;
+		*x += data->dir_x * MSPEED;
+		*y += data->dir_y * MSPEED;
 	}
 	if (data->key_down)
 	{
-		*x -= data->dirX * MSPEED;
-		*y -= data->dirY * MSPEED;
+		*x -= data->dir_x * MSPEED;
+		*y -= data->dir_y * MSPEED;
 	}
 	if (data->key_left)
 	{
-		*x += data->dirY * MSPEED;
-		*y -= data->dirX * MSPEED;
+		*x += data->dir_y * MSPEED;
+		*y -= data->dir_x * MSPEED;
 	}
 	if (data->key_right)
 	{
-		*x -= data->dirY * MSPEED;
-		*y += data->dirX * MSPEED;
+		*x -= data->dir_y * MSPEED;
+		*y += data->dir_x * MSPEED;
 	}
 }
 
@@ -83,8 +87,8 @@ void	move_player(t_data *data)
 	double	x;
 	double	y;
 
-	x = data->posX;
-	y = data->posY;
+	x = data->pos_x;
+	y = data->pos_y;
 	if (data->left_rotate || data->right_rotate)
 	{
 		rotate_player(data);
@@ -93,7 +97,7 @@ void	move_player(t_data *data)
 	move_operation(data, &x, &y);
 	if (check_position(data->p, x, y))
 	{
-		data->posX = x;
-		data->posY = y;
+		data->pos_x = x;
+		data->pos_y = y;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:38:04 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/25 13:40:15 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:18:01 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	free_parsing(t_pars *d, char *s)
 {
-	if (d->EA)
+	if (d->ea)
 		free(d->texture_path[2]);
-	if (d->SO)
+	if (d->so)
 		free(d->texture_path[1]);
-	if (d->NO)
+	if (d->no)
 		free(d->texture_path[0]);
-	if (d->WE)
+	if (d->we)
 		free(d->texture_path[3]);
 	ft_putstr_fd(s, 2);
 	ft_free_array(d->map_test);
@@ -32,13 +32,13 @@ void	init_pars(t_pars *p)
 {
 	p->fd = -1;
 	p->save_y = 0;
-	p->EA = 0;
-	p->NO = 0;
-	p->SO = 0;
-	p->WE = 0;
-	p->N = 0;
-	p->C = 0;
-	p->F = 0;
+	p->ea = 0;
+	p->no = 0;
+	p->so = 0;
+	p->we = 0;
+	p->n = 0;
+	p->c = 0;
+	p->f = 0;
 	p->virg = 0;
 	p->j = 0;
 	p->tex = 0;

@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:19:00 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/25 13:54:09 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:14:32 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	check_map_space(t_pars *d, char **map, int y, int x)
 			if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'E'
 				|| map[y][x] == 'W')
 			{
-				d->N++;
+				d->n++;
 				d->d = map[y][x];
 				d->x_player = x;
 				d->y_player = y;
@@ -51,7 +51,7 @@ void	check_map_space(t_pars *d, char **map, int y, int x)
 			}
 		}
 	}
-	if (map[y - 1][x - 1] != '1' || d->N != 1)
+	if (map[y - 1][x - 1] != '1' || d->n != 1)
 		free_parsing(d, "error\nNon-conforming map");
 }
 

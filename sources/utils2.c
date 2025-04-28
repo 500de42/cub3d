@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:49:25 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/23 18:53:05 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:19:24 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ void	free_data_close(t_data *d)
 {
 	if (d->p->map_test)
 		ft_free_array(d->p->map_test);
-	if (d->p->EA && d->p->texture_path[3])
+	if (d->p->ea && d->p->texture_path[3])
 		free(d->p->texture_path[3]);
-	if (d->p->SO && d->p->texture_path[1])
+	if (d->p->so && d->p->texture_path[1])
 		free(d->p->texture_path[1]);
-	if (d->p->NO && d->p->texture_path[0])
+	if (d->p->no && d->p->texture_path[0])
 		free(d->p->texture_path[0]);
-	if (d->p->WE && d->p->texture_path[2])
+	if (d->p->we && d->p->texture_path[2])
 		free(d->p->texture_path[2]);
 	free(d->p);
 }

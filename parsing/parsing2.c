@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:17:11 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/22 19:37:07 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/28 14:45:00 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	check_sprite(t_pars *d)
 	while (d->map_test[++y])
 	{
 		x = 0;
-		if (d->EA > 0 && d->WE > 0 && d->SO > 0 && d->NO > 0 && d->F > 0
-			&& d->C > 0)
+		if (d->ea > 0 && d->we > 0 && d->so > 0 && d->no > 0 && d->f > 0
+			&& d->c > 0)
 			break ;
 		x = -1;
 		check_texture_and_pos(d, y, x);
 	}
-	if ((d->EA != 1 || d->WE != 1 || d->SO != 1 || d->NO != 1 || d->C != 1
-			|| d->F != 1))
+	if ((d->ea != 1 || d->we != 1 || d->so != 1 || d->no != 1 || d->c != 1
+			|| d->f != 1))
 		free_parsing(d, "error\nBad path or RGB number detected\n");
 	d->save_y = y - 1;
 }
@@ -39,11 +39,11 @@ void	first_check_rgb(t_pars *d, int *y, int *x, char *c)
 		free_parsing(d, "error\nBad character\n");
 	*c = d->map_test[*y][*x];
 	if (d->map_test[*y][(*x) + 1] != ' ')
-		free_parsing(d, "error\nexepted format <F number,number,number>\n");
+		free_parsing(d, "error\nexepted format <f number,number,number>\n");
 	if (d->map_test[*y][*x] == 'F')
-		d->F++;
+		d->f++;
 	else
-		d->C++;
+		d->c++;
 	if (ft_strlen(&d->map_test[*y][(*x)]) > 1)
 		(*x) += 2;
 	else
@@ -68,7 +68,7 @@ void	loops_check_rgb(t_pars *d, int i, int *y, char *nb)
 			|| d->map_test[*y][i] == '\'')
 		{
 			free(nb);
-			free_parsing(d, "error\nNegative number not accepted\n");
+			free_parsing(d, "error\nNegative number not accepted or bad RGB\n");
 		}
 		if (d->map_test[*y][i] == ',')
 			d->virg++;
@@ -107,6 +107,14 @@ void	check_rgb(t_pars *d, int *y, int *x)
 
 void	free_cv_rgb(char **tab, t_pars *d)
 {
+	if (d->ea)
+		free(d->texture_path[2]);
+	if (d->so)
+		free(d->texture_path[1]);
+	if (d->no)
+		free(d->texture_path[0]);
+	if (d->we)
+		free(d->texture_path[3]);
 	ft_putstr_fd("error\nBad RGB value", 2);
 	ft_free_array(tab);
 	ft_free_array(d->map_test);

@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:26:28 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/25 14:16:03 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:10:46 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@
 typedef struct t_pars
 {
 	int		fd;
-	int		NO;
-	int		SO;
-	int		WE;
-	int		EA;
-	int		N;
-	int		F;
-	int		C;
+	int		no;
+	int		so;
+	int		we;
+	int		ea;
+	int		n;
+	int		f;
+	int		c;
 	char	d;
 	int		len;
 	int		save_y;
@@ -71,13 +71,13 @@ typedef struct t_pars
 
 typedef struct t_ray
 {
-	int		stepX;
-	int		stepY;
-	double	sideX;
-	double	sideY;
+	int		step_x;
+	int		step_y;
+	double	side_x;
+	double	side_y;
 	int		side;
-	int		mapX;
-	int		mapY;
+	int		map_x;
+	int		map_y;
 	int		x;
 	double	distance_wall;
 	int		wall_height;
@@ -96,19 +96,19 @@ typedef struct t_ray
 typedef struct t_data
 {
 	double	cam;
-	double	ray_dirX;
-	double	ray_dirY;
-	double	deltaX;
-	double	deltaY;
-	double	camX;
-	double	posX;
-	double	posY;
-	double	dirX;
-	double	dirY;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	double	delta_x;
+	double	delta_y;
+	double	cam_x;
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
 	int		y_player;
 	int		x_player;
-	double	planeX;
-	double	planeY;
+	double	plane_x;
+	double	plane_y;
 	int		ceiling_color;
 	int		floor_color;
 	int		*texture_buffer[4];
@@ -118,7 +118,9 @@ typedef struct t_data
 	void	*img_addr;
 	int		tex_width[4];
 	int		tex_height[4];
-	int tex_bpp, tex_line_length, tex_endian;
+	int		tex_bpp;
+	int		tex_line_length;
+	int		tex_endian;
 	void	*mlx_window;
 	void	*mlx;
 	int		tex_buff;

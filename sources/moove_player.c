@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:21:53 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/25 13:46:32 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:12:30 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@ int	close_handler(t_data *data)
 	return (0);
 }
 
-int	key_press_handler(int key, t_data *data)
+int	handle_east_north(t_data *data, int key)
 {
-	if (key == XK_Escape)
-		close_handler(data);
 	if (key == XK_Left)
 	{
 		data->left_rotate = true;
@@ -43,7 +41,34 @@ int	key_press_handler(int key, t_data *data)
 	return (0);
 }
 
-int	key_release_handler(int key, t_data *data)
+int	key_press_handler(int key, t_data *data)
+{
+	if (key == XK_Escape)
+		close_handler(data);
+	if (data->p->d == 'N' || data->p->d == 'E')
+		return (handle_east_north(data, key));
+	if (key == XK_Left)
+	{
+		data->right_rotate = true;
+		data->rotate += 1;
+	}
+	if (key == XK_Right)
+	{
+		data->left_rotate = true;
+		data->rotate -= 1;
+	}
+	if (key == XK_w)
+		data->key_up = true;
+	if (key == XK_s)
+		data->key_down = true;
+	if (key == XK_d)
+		data->key_left = true;
+	if (key == XK_a)
+		data->key_right = true;
+	return (0);
+}
+
+int	release_east_north(int key, t_data *data)
 {
 	if (key == XK_Left)
 	{
@@ -66,33 +91,27 @@ int	key_release_handler(int key, t_data *data)
 	return (0);
 }
 
-void	rotate_player(t_data *data)
+int	key_release_handler(int key, t_data *data)
 {
-	double	old_plane_x;
-	double	old_dir_x;
-	double	angle_speed;
-
-	old_plane_x = data->planeX;
-	old_dir_x = data->dirX;
-	angle_speed = 0.050 * data->rotate;
-	data->dirX = data->dirX * cos(angle_speed) - data->dirY * sin(angle_speed);
-	data->dirY = old_dir_x * sin(angle_speed) + data->dirY * cos(angle_speed);
-	data->planeX = data->planeX * cos(angle_speed) - data->planeY
-		* sin(angle_speed);
-	data->planeY = old_plane_x * sin(angle_speed) + data->planeY
-		* cos(angle_speed);
-}
-
-void	get_mouse_position(t_data *data, int x, int y)
-{
-	if (x > SCREEN_WIDTH - DIST_EDGE_MOUSE_WRAP)
+	if (data->p->d == 'E' || data->p->d == 'N')
+		return (release_east_north(key, data));
+	if (key == XK_Left)
 	{
-		x = DIST_EDGE_MOUSE_WRAP;
-		mlx_mouse_move(data->mlx, data->mlx_window, x, y);
+		data->right_rotate = false;
+		data->rotate = 0;
 	}
-	if (x < DIST_EDGE_MOUSE_WRAP)
+	if (key == XK_Right)
 	{
-		x = SCREEN_WIDTH - DIST_EDGE_MOUSE_WRAP;
-		mlx_mouse_move(data->mlx, data->mlx_window, x, y);
+		data->left_rotate = false;
+		data->rotate = 0;
 	}
+	if (key == XK_w)
+		data->key_up = false;
+	if (key == XK_s)
+		data->key_down = false;
+	if (key == XK_d)
+		data->key_left = false;
+	if (key == XK_a)
+		data->key_right = false;
+	return (0);
 }

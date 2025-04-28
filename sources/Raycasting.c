@@ -6,95 +6,90 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 20:44:40 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/22 19:23:47 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:58:38 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	load_textures(t_data *d, t_pars *p)
+void	def_per_side(t_ray *r, t_data *d)
 {
-	int	i;
-
-	i = 0;
-	while (i < 4)
+	if (r->side == 0)
 	{
-		d->tex_ptr[i] = mlx_xpm_file_to_image(d->mlx, p->texture_path[i],
-				&d->tex_width[i], &d->tex_height[i]);
-		if (!d->tex_ptr[i])
-			free_all(d, "Error\nLoad texture2\n");
-		d->tex_addr[i] = mlx_get_data_addr(d->tex_ptr[i], &d->tex_bpp,
-				&d->tex_line_length, &d->tex_endian);
-		if (!d->tex_addr[i])
-			free_all(d, "Error\nLoad texture1\n");
-		d->texture_buffer[i] = (int *)d->tex_addr[i];
-		i++;
-	}
-	d->tex_buff = 1;
-}
-
-void	put_pixel_to_img(t_data *d, int x, int y, int color)
-{
-	if (x < 0 || x >= SCREEN_WIDTH || y < 0 || y >= SCREEN_HEIGHT)
-		return ;
-	*(int *)(d->img_addr + (y * d->tex_line_length + x * (d->tex_bpp
-					/ 8))) = color;
-}
-
-void	ray_start(t_ray *r, t_data *d)
-{
-	r->mapX = (int)d->posX;
-	r->mapY = (int)d->posY;
-	d->camX = 2 * r->x / (double)SCREEN_WIDTH - 1;
-	d->ray_dirX = d->dirX + d->planeX * d->camX;
-	d->ray_dirY = d->dirY + d->planeY * d->camX;
-	d->deltaX = fabs(1 / d->ray_dirX);
-	d->deltaY = fabs(1 / d->ray_dirY);
-}
-
-void	dir_ray(t_ray *r, t_data *d)
-{
-	if (d->ray_dirX < 0)
-	{
-		r->stepX = -1;
-		r->sideX = ((d->posX - r->mapX) * d->deltaX);
+		r->distance_wall = r->side_x - d->delta_x;
+		r->wall_x = d->pos_y + r->distance_wall * d->ray_dir_y;
+		if (r->step_x > 0)
+			r->dir = 3;
+		else
+			r->dir = 2;
 	}
 	else
 	{
-		r->stepX = 1;
-		r->sideX = ((r->mapX + 1.0 - d->posX) * d->deltaX);
-	}
-	if (d->ray_dirY < 0)
-	{
-		r->stepY = -1;
-		r->sideY = ((d->posY - r->mapY) * d->deltaY);
-	}
-	else
-	{
-		r->stepY = 1;
-		r->sideY = ((r->mapY + 1.0 - d->posY) * d->deltaY);
+		r->distance_wall = r->side_y - d->delta_y;
+		r->wall_x = d->pos_x + r->distance_wall * d->ray_dir_x;
+		if (r->step_y > 0)
+			r->dir = 1;
+		else
+			r->dir = 0;
 	}
 }
 
-void	loop_length_ray(t_ray *r, t_data *d)
+void	def_before_draw(t_data *d, t_ray *r)
 {
-	while (1)
+	r->wall_x -= floor(r->wall_x);
+	r->distance_wall = r->distance_wall / fabs((d->ray_dir_x * d->dir_x)
+			+ (d->ray_dir_y * d->dir_y));
+	r->wall_height = SCREEN_HEIGHT / r->distance_wall;
+	r->draw_start = -r->wall_height / 2 + SCREEN_HEIGHT / 2;
+	r->draw_end = r->wall_height / 2 + SCREEN_HEIGHT / 2;
+	if (r->draw_start < 0)
+		r->draw_start = 0;
+	if (r->draw_end > SCREEN_HEIGHT)
+		r->draw_end = SCREEN_HEIGHT - 1;
+	r->tex_x = (int)(r->wall_x * d->tex_width[r->dir]);
+	if ((r->side == 0 && d->ray_dir_x > 0) || (r->side == 1
+			&& d->ray_dir_y < 0))
+		r->tex_x = d->tex_width[r->dir] - r->tex_x - 1;
+	r->step = 1.0 * d->tex_height[r->dir] / r->wall_height;
+	r->pos = (r->draw_start - SCREEN_HEIGHT / 2 + r->wall_height / 2) * r->step;
+}
+
+void	loop_put_pixel(t_data *d, t_ray *r)
+{
+	r->dw = 0;
+	while (r->dw < SCREEN_HEIGHT)
 	{
-		if (r->sideX < r->sideY)
-		{
-			r->sideX += d->deltaX;
-			r->mapX += r->stepX;
-			r->side = 0;
-		}
+		if (r->dw < r->draw_start)
+			put_pixel_to_img(d, r->x, r->dw, d->ceiling_color);
+		else if (r->dw >= r->draw_end)
+			put_pixel_to_img(d, r->x, r->dw, d->floor_color);
 		else
 		{
-			r->sideY += d->deltaY;
-			r->mapY += r->stepY;
-			r->side = 1;
+			r->tex_y = (int)r->pos;
+			r->pos += r->step;
+			if (r->tex_y < 0)
+				r->tex_y = 0;
+			if (r->tex_y >= d->tex_height[r->dir])
+				r->tex_y = d->tex_height[r->dir] - 1;
+			r->color = d->texture_buffer[r->dir][r->tex_y * d->tex_width[r->dir]
+				+ r->tex_x];
+			put_pixel_to_img(d, r->x, r->dw, r->color);
 		}
-		if (d->p->map[r->mapY][r->mapX] == '1')
-		{
-			break ;
-		}
+		r->dw++;
 	}
+}
+
+void	ray(t_data *d, t_ray *r)
+{
+	r->x = 0;
+	while (r->x++ < SCREEN_WIDTH)
+	{
+		ray_start(r, d);
+		dir_ray(r, d);
+		loop_length_ray(r, d);
+		def_per_side(r, d);
+		def_before_draw(d, r);
+		loop_put_pixel(d, r);
+	}
+	mlx_put_image_to_window(d->mlx, d->mlx_window, d->img_ptr, 0, 0);
 }

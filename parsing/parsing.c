@@ -6,7 +6,7 @@
 /*   By: kcharbon <kcharbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:27:57 by kcharbon          #+#    #+#             */
-/*   Updated: 2025/04/25 15:19:15 by kcharbon         ###   ########.fr       */
+/*   Updated: 2025/04/28 13:12:22 by kcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,17 @@ void	if_check_path_end(t_pars *d, char *st)
 {
 	if (!ft_strncmp(d->id, "NO", 2))
 	{
-		if (d->NO)
+		if (d->no)
 			free(d->texture_path[0]);
 		d->texture_path[0] = ft_strdup(st);
-		d->NO++;
+		d->no++;
 	}
 	if (!ft_strncmp(d->id, "SO", 2))
 	{
-		if (d->SO)
+		if (d->so)
 			free(d->texture_path[1]);
 		d->texture_path[1] = ft_strdup(st);
-		d->SO++;
+		d->so++;
 	}
 }
 
@@ -66,21 +66,21 @@ void	check_path_end(t_pars *d, char *st)
 	}
 	if (!ft_strncmp(d->id, "EA", 2))
 	{
-		if (d->EA)
+		if (d->ea)
 			free(d->texture_path[2]);
 		d->texture_path[2] = ft_strdup(st);
-		d->EA++;
+		d->ea++;
 	}
 	if (!ft_strncmp(d->id, "WE", 2))
 	{
-		if (d->WE)
+		if (d->we)
 			free(d->texture_path[3]);
 		d->texture_path[3] = ft_strdup(st);
-		d->WE++;
+		d->we++;
 	}
 	if_check_path_end(d, st);
 	free(st);
-	if (d->EA > 1 || d->NO > 1 || d->WE > 1 || d->SO > 1)
+	if (d->ea > 1 || d->no > 1 || d->we > 1 || d->so > 1)
 		free_parsing(d, "error\nBad path\n");
 }
 
